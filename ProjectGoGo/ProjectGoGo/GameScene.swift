@@ -9,12 +9,14 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate{
+    
+    var gameStarted = Bool(false)
+    var died = Bool(false)
+    let normalTrump = SKSpriteNode(imageNamed: "trumpRage.png")
     
     override func didMove(to view: SKView) {
-        
-        let normalTrump = SKSpriteNode(imageNamed: "trumpRage.png")
-        
+                
         normalTrump.size.width = 150
         normalTrump.size.height = 150
         normalTrump.position = CGPoint(x: 0, y: 0)
