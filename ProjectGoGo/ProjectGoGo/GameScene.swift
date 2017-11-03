@@ -11,29 +11,54 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
     
-    var gameStarted = Bool(false)
-    var died = Bool(false)
-    let normalTrump = SKSpriteNode(imageNamed: "trumpRage.png")
+        override func didMove(to view: SKView) {
+            
+            var label1 = SKLabelNode(fontNamed:"Chalkduster")
+            label1.text = "Trump Jump"
+            label1.fontSize = 35
+            label1.fontColor = SKColor.blue
+            
+            label1.position = CGPoint(x: self.frame.size.width/2,y: self.frame.size.height * 0.9)
+            
+            self.addChild(label1)
+            
+            
+            
+//            var ground = SKSpriteNode()
+//            self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//            makeGround()
+//            self.addChild(ground)
+            
+    }
     
-    override func didMove(to view: SKView) {
-                
-        normalTrump.size.width = 150
-        normalTrump.size.height = 150
-        normalTrump.position = CGPoint(x: 0, y: 0)
-        
-        self.addChild(normalTrump)
+    override func update(_ currentTime: TimeInterval) {
+        //moveGround()
+    }
 
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-       // if let label = self.label {
-            //label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-       // for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
-    
-    func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
+//    func makeGround(){
+//
+//        for i in 0...3{
+//            let ground = SKSpriteNode(imageNamed: "ground")
+//            ground.name = "Ground"
+//            ground.size = CGSize(width: (self.scene?.size.width)!, height: 250)
+//            ground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+//            ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: -(self.frame.size.height / 2))
+//
+//            self.addChild(ground)
+//        }
+//    }
+//
+//    func moveGround(){
+//        self.enumerateChildNodes(withName: "Ground", using: ({
+//            (node, error) in
+//
+//            node.position.x -= 2
+//
+//            if node.position.x < -(self.scene?.size.width)!{
+//                node.position.x += (self.scene?.size.width)! * 3
+//            }
+//        }))
+//    }
+
+}
 
