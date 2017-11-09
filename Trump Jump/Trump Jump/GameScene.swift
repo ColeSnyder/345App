@@ -24,13 +24,15 @@ class GameScene: SKScene {
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
     
-    override func didMove(to view: SKView) {
+    override func didMove(to view: SKView)
+    {
         gameStart = false
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
         
         textureAtlas = SKTextureAtlas(named: "Images")
-        for i in 1...textureAtlas.textureNames.count{
+        for i in 1...textureAtlas.textureNames.count
+        {
             let Name = "trump\(i).png"
             textureArray.append(SKTexture(imageNamed: Name))
         }
