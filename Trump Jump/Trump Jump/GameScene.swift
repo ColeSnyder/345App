@@ -63,10 +63,10 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             runningTrump()
             gameStart = true
+            trump.physicsBody?.affectedByGravity = true
     }
     
     override func update(_ currentTime: TimeInterval) {
-        
         if gameStart == true {
             moveGround()
             moveGround()
@@ -104,4 +104,11 @@ class GameScene: SKScene {
             SKAction.animate(with: textureArray, timePerFrame: 0.1, resize: false, restore: true)),
                      withKey:"TrumpRunningNow")
     }
+    
+    func createTrump() {
+        
+    }
+    
+    
+    
 }
