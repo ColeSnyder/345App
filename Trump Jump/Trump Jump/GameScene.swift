@@ -38,8 +38,8 @@ class GameScene: SKScene {
         }
         
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
-        trumpRun.size = CGSize(width: 400, height: 300)
-        trumpRun.position = CGPoint(x: -200, y: (self.scene?.size.height)! * -0.30)
+        trumpRun.size = CGSize(width: 320, height: 220)
+        trumpRun.position = CGPoint(x: -200, y: (self.scene?.size.height)! * -0.33)
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
@@ -61,6 +61,7 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
+        trumpToggleJump()
             runningTrump()
             gameStart = true
             trump.physicsBody?.affectedByGravity = true
@@ -105,10 +106,14 @@ class GameScene: SKScene {
                      withKey:"TrumpRunningNow")
     }
     
-    func createTrump() {
+    func trumpToggleJump() {
+        let jumpUpAction = SKAction.moveBy(x: 0, y:400, duration:0.3)
+       
+        let jumpDownAction = SKAction.moveBy(x: 0, y:-400, duration:0.2)
+       
+        let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
         
+        trumpRun.run(jumpSequence)
     }
-    
-    
-    
 }
+
