@@ -69,9 +69,9 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
-        trumpToggleJump()
-            runningTrump()
+            trumpToggleJump()
             gameStart = true
+            runningTrump()
             trump.physicsBody?.affectedByGravity = true
         
         self.wall = self.createWall()
@@ -118,13 +118,17 @@ class GameScene: SKScene {
     }
     
     func trumpToggleJump() {
-        let jumpUpAction = SKAction.moveBy(x: 0, y:400, duration:0.3)
-       
-        let jumpDownAction = SKAction.moveBy(x: 0, y:-400, duration:0.2)
-       
-        let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+
+        if trumpRun.position.y < (self.scene?.size.height)! * -0.32 {
+            
+            let jumpUpAction = SKAction.moveBy(x: 0, y:550, duration:0.2)
+            let jumpDownAction = SKAction.moveBy(x: 0, y:-550, duration:0.5)
+            let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+            
+            trumpRun.run(jumpSequence)
+            
+            }
         
-        trumpRun.run(jumpSequence)
     }
     
     func createWall() -> SKNode {
@@ -154,7 +158,6 @@ class GameScene: SKScene {
         
         wall.run(moveAndRemove)
         return wall
-        
     }
     
     func random() -> CGFloat{
@@ -166,4 +169,3 @@ class GameScene: SKScene {
     }
     
 }
-
