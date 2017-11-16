@@ -117,16 +117,15 @@ class GameScene: SKScene {
     }
     
     func trumpToggleJump() {
-
+        
         if trumpRun.position.y < (self.scene?.size.height)! * -0.32 {
             
             let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
             let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
-            let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
+            let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
+            trumpRun.run(jump)
             
-            trumpRun.run(jumpSequence)
-            
-            }
+        }
     }
     
     func createWall() -> SKNode {
