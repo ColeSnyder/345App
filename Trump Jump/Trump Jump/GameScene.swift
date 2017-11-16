@@ -80,7 +80,6 @@ class GameScene: SKScene {
             gameStart = true
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
-        
             self.wall = self.createWall()
             self.addChild(self.wall)
     }
@@ -109,9 +108,7 @@ class GameScene: SKScene {
     func moveGround(){
         self.enumerateChildNodes(withName: "Ground", using: ({
             (node, error) in
-
             node.position.x -= 2
-
             if node.position.x < (-(self.scene?.size.width)!) {
                 node.position.x += (self.scene?.size.width)! * 3
             }
@@ -125,7 +122,6 @@ class GameScene: SKScene {
     }
     
     func trumpToggleJump() {
-        
             if trumpRun.position.y < (self.scene?.size.height)! * -0.32 {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
                 let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
@@ -137,26 +133,18 @@ class GameScene: SKScene {
     func createWall() -> SKNode {
         wall = SKNode()
         wall.name = "wall"
-        
         let btmWall = SKSpriteNode(imageNamed: "wall")
-        
         btmWall.position = CGPoint(x: self.frame.width + 25, y: self.frame.height / 2 - 1000)
-        
         btmWall.setScale(0.5)
-        
         btmWall.physicsBody = SKPhysicsBody(rectangleOf: btmWall.size)
         btmWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
         btmWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
         btmWall.physicsBody?.contactTestBitMask = CollisionMask.trumpSmash
         btmWall.physicsBody?.isDynamic = false
         btmWall.physicsBody?.affectedByGravity = false
-        
         wall.addChild(btmWall)
-        
         wall.zPosition = 1
-        
         wall.position.y = -50
-        
         wall.run(moveAndRemove)
         return wall
     }
@@ -168,6 +156,7 @@ class GameScene: SKScene {
     func random(min : CGFloat, max : CGFloat) -> CGFloat{
         return random() * (max - min) + min
     }
+    
     func createTrump() -> SKSpriteNode {
         let trump = SKSpriteNode(texture: SKTextureAtlas(named:"player").textureNamed("trump1"))
         trump.size = CGSize(width: 50, height: 50)
