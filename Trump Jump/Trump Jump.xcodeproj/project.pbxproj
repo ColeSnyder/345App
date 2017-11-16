@@ -18,7 +18,6 @@
 		6E301F231FAD205700BF9EB7 /* Trump_JumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E301F221FAD205700BF9EB7 /* Trump_JumpTests.swift */; };
 		6E301F2E1FAD205700BF9EB7 /* Trump_JumpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E301F2D1FAD205700BF9EB7 /* Trump_JumpUITests.swift */; };
 		6EB49A0F1FAD7BB40036D041 /* Images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6EB49A0E1FAD7BB40036D041 /* Images.atlas */; };
-		7EEF76A01FB205FB00A2EC2D /* GameElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EEF769F1FB205FB00A2EC2D /* GameElements.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +55,6 @@
 		6E301F2D1FAD205700BF9EB7 /* Trump_JumpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trump_JumpUITests.swift; sourceTree = "<group>"; };
 		6E301F2F1FAD205700BF9EB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EB49A0E1FAD7BB40036D041 /* Images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Images.atlas; sourceTree = "<group>"; };
-		7EEF769F1FB205FB00A2EC2D /* GameElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameElements.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,7 +110,6 @@
 				6E301F091FAD205700BF9EB7 /* GameScene.sks */,
 				6E301F0B1FAD205700BF9EB7 /* Actions.sks */,
 				6E301F0D1FAD205700BF9EB7 /* GameScene.swift */,
-				7EEF769F1FB205FB00A2EC2D /* GameElements.swift */,
 				6E301F0F1FAD205700BF9EB7 /* GameViewController.swift */,
 				6E301F111FAD205700BF9EB7 /* Main.storyboard */,
 				6E301F141FAD205700BF9EB7 /* Assets.xcassets */,
@@ -277,7 +274,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EEF76A01FB205FB00A2EC2D /* GameElements.swift in Sources */,
 				6E301F0E1FAD205700BF9EB7 /* GameScene.swift in Sources */,
 				6E301F101FAD205700BF9EB7 /* GameViewController.swift in Sources */,
 				6E301F081FAD205700BF9EB7 /* AppDelegate.swift in Sources */,
