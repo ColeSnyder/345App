@@ -136,30 +136,25 @@ class GameScene: SKScene {
             
             }
     }
-    
     func createWall() -> SKNode {
         wall = SKNode()
         wall.name = "wall"
         
-        let btmWall = SKSpriteNode(imageNamed: "wall")
+        let trumpWall = SKSpriteNode(imageNamed: "wall")
         
-        btmWall.position = CGPoint(x: self.frame.width + 25, y: self.frame.height / 2 - 1000)
+        trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 600)
+        trumpWall.setScale(0.75)
+        trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
+        trumpWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
+        trumpWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
+        trumpWall.physicsBody?.contactTestBitMask = CollisionMask.trumpSmash
+        trumpWall.physicsBody?.isDynamic = false
+        trumpWall.physicsBody?.affectedByGravity = false
         
-        btmWall.setScale(0.5)
-        
-        btmWall.physicsBody = SKPhysicsBody(rectangleOf: btmWall.size)
-        btmWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
-        btmWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
-        btmWall.physicsBody?.contactTestBitMask = CollisionMask.trumpSmash
-        btmWall.physicsBody?.isDynamic = false
-        btmWall.physicsBody?.affectedByGravity = false
-        
-        wall.addChild(btmWall)
-        
+        wall.addChild(trumpWall)
         wall.zPosition = 1
-        
-       // let randomPosition = random(min: -100, max: -100)
-        wall.position.y = -50
+        let randomPosition = random(min: 0, max: 25)
+        wall.position.y = wall.position.y +  randomPosition
         //wall.addChild(sprayTanNode)
         
         wall.run(moveAndRemove)
@@ -173,6 +168,7 @@ class GameScene: SKScene {
     func random(min : CGFloat, max : CGFloat) -> CGFloat{
         return random() * (max - min) + min
     }
+    
     func createTrump() -> SKSpriteNode {
         let trump = SKSpriteNode(texture: SKTextureAtlas(named:"player").textureNamed("trump1"))
         trump.size = CGSize(width: 50, height: 50)
