@@ -20,6 +20,8 @@ class GameScene: SKScene {
     var trumpNormalLeft = SKSpriteNode()
     var run: Bool = false
     var gameStart: Bool = false
+    var wall = SKNode()
+    var moveAndRemove = SKAction()
     
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
@@ -54,6 +56,12 @@ class GameScene: SKScene {
         subLabel.fontColor = SKColor.white
         subLabel.position = CGPoint(x: 0, y: 450)
         
+        let distance = CGFloat(self.frame.width + wall.frame.width)
+        let movePipes = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 * distance))
+//      let movePipes = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 ))
+        let removePipes = SKAction.removeFromParent()
+        moveAndRemove = SKAction.sequence([movePipes, removePipes])
+        
         makeGround()
         self.addChild(label1)
         self.addChild(subLabel)
@@ -65,6 +73,9 @@ class GameScene: SKScene {
             runningTrump()
             gameStart = true
             trump.physicsBody?.affectedByGravity = true
+        
+        self.wall = self.createWall()
+        self.addChild(self.wall)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -115,5 +126,44 @@ class GameScene: SKScene {
         
         trumpRun.run(jumpSequence)
     }
+    
+    func createWall() -> SKNode {
+        wall = SKNode()
+        wall.name = "wall"
+        
+        let btmWall = SKSpriteNode(imageNamed: "wall")
+        
+        btmWall.position = CGPoint(x: self.frame.width + 25, y: self.frame.height / 2 - 1000)
+        
+        btmWall.setScale(0.5)
+        
+        btmWall.physicsBody = SKPhysicsBody(rectangleOf: btmWall.size)
+        btmWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
+        btmWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
+        btmWall.physicsBody?.contactTestBitMask = CollisionMask.trumpSmash
+        btmWall.physicsBody?.isDynamic = false
+        btmWall.physicsBody?.affectedByGravity = false
+        
+        wall.addChild(btmWall)
+        
+        wall.zPosition = 1
+        
+       // let randomPosition = random(min: -100, max: -100)
+        wall.position.y = -50
+        //wall.addChild(sprayTanNode)
+        
+        wall.run(moveAndRemove)
+        return wall
+        
+    }
+    
+    func random() -> CGFloat{
+        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
+    }
+    
+    func random(min : CGFloat, max : CGFloat) -> CGFloat{
+        return random() * (max - min) + min
+    }
+    
 }
 
