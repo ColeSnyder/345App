@@ -81,18 +81,18 @@ class GameScene: SKScene {
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
         
-        self.wall = self.createWall()
-        self.addChild(self.wall)
+            self.wall = self.createWall()
+            self.addChild(self.wall)
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if gameStart == true {
-            moveGround()
-            moveGround()
-            moveGround()
-            moveGround()
-            subLabel.text = ""
-        }
+            if gameStart == true {
+                moveGround()
+                moveGround()
+                moveGround()
+                moveGround()
+                subLabel.text = ""
+            }
     }
     
     func makeGround(){
@@ -119,20 +119,18 @@ class GameScene: SKScene {
     }
     
     func runningTrump() {
-        trumpRun.run(SKAction.repeatForever(
+            trumpRun.run(SKAction.repeatForever(
             SKAction.animate(with: textureArray, timePerFrame: 0.1, resize: false, restore: true)),
-                     withKey:"TrumpRunningNow")
+            withKey:"TrumpRunningNow")
     }
     
     func trumpToggleJump() {
         
-        if trumpRun.position.y < (self.scene?.size.height)! * -0.32 {
-            
-            let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
-            let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
-            let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
-            trumpRun.run(jump)
-            
+            if trumpRun.position.y < (self.scene?.size.height)! * -0.32 {
+                let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
+                let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
+                let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
+                trumpRun.run(jump)
         }
     }
     
@@ -157,9 +155,7 @@ class GameScene: SKScene {
         
         wall.zPosition = 1
         
-       // let randomPosition = random(min: -100, max: -100)
         wall.position.y = -50
-        //wall.addChild(sprayTanNode)
         
         wall.run(moveAndRemove)
         return wall
@@ -185,5 +181,5 @@ class GameScene: SKScene {
         trump.physicsBody?.affectedByGravity = false
         trump.physicsBody?.isDynamic = true
         return trump
-}
+    }
 }
