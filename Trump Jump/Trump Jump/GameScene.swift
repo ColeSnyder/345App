@@ -64,10 +64,11 @@ class GameScene: SKScene {
         subLabel.fontColor = SKColor.white
         subLabel.position = CGPoint(x: 0, y: 450)
         
+        let randomDistance = random(min: 0.004, max: 0.010)
         let distance = CGFloat(self.frame.width + wall.frame.width)
-        let movePipes = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 * distance))
-        let removePipes = SKAction.removeFromParent()
-        moveAndRemove = SKAction.sequence([movePipes, removePipes])
+        let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(randomDistance * distance))
+        let removeWalls = SKAction.removeFromParent()
+        moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
         makeGround()
         self.addChild(label1)
@@ -132,11 +133,10 @@ class GameScene: SKScene {
     func createWall() -> SKNode {
         wall = SKNode()
         wall.name = "wall"
-<<<<<<< HEAD
         
         let trumpWall = SKSpriteNode(imageNamed: "wall")
         
-        trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 600)
+        trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 500)
         trumpWall.setScale(0.75)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
         trumpWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
@@ -147,24 +147,8 @@ class GameScene: SKScene {
         
         wall.addChild(trumpWall)
         wall.zPosition = 1
-        let randomPosition = random(min: 0, max: 25)
-        wall.position.y = wall.position.y +  randomPosition
-        //wall.addChild(sprayTanNode)
-        
-=======
-        let btmWall = SKSpriteNode(imageNamed: "wall")
-        btmWall.position = CGPoint(x: self.frame.width + 25, y: self.frame.height / 2 - 1000)
-        btmWall.setScale(0.5)
-        btmWall.physicsBody = SKPhysicsBody(rectangleOf: btmWall.size)
-        btmWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
-        btmWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
-        btmWall.physicsBody?.contactTestBitMask = CollisionMask.trumpSmash
-        btmWall.physicsBody?.isDynamic = false
-        btmWall.physicsBody?.affectedByGravity = false
-        wall.addChild(btmWall)
-        wall.zPosition = 1
-        wall.position.y = -50
->>>>>>> 01bc1fdd1248a66167a01c56555173b468e83257
+        let randomPosition = random(min: 20, max: 35)
+        wall.position.y = wall.position.y + randomPosition
         wall.run(moveAndRemove)
         return wall
     }
