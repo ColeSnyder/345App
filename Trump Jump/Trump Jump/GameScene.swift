@@ -147,7 +147,7 @@ class GameScene: SKScene {
         
         wall.addChild(trumpWall)
         wall.zPosition = 1
-        let randomPosition = random(min: 20, max: 35)
+        let randomPosition = random(min: 45, max: 50)
         wall.position.y = wall.position.y + randomPosition
         wall.run(moveAndRemove)
         return wall
