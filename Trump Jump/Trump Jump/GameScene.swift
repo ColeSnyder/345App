@@ -66,7 +66,6 @@ class GameScene: SKScene {
         
         let distance = CGFloat(self.frame.width + wall.frame.width)
         let movePipes = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 * distance))
-//      let movePipes = SKAction.moveBy(x: -distance - 50, y: 0, duration: TimeInterval(0.008 ))
         let removePipes = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([movePipes, removePipes])
         
@@ -129,14 +128,13 @@ class GameScene: SKScene {
 
         if trumpRun.position.y < (self.scene?.size.height)! * -0.32 {
             
-            let jumpUpAction = SKAction.moveBy(x: 0, y:550, duration:0.2)
-            let jumpDownAction = SKAction.moveBy(x: 0, y:-550, duration:0.5)
+            let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
+            let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
             let jumpSequence = SKAction.sequence([jumpUpAction, jumpDownAction])
             
             trumpRun.run(jumpSequence)
             
             }
-        
     }
     
     func createWall() -> SKNode {
