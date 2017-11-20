@@ -9,15 +9,15 @@
 import SpriteKit
 import GameplayKit
 
-struct CollisionMask
+struct CollisionBitMask
 {
-    static let trumpSmash:UInt32 = 0x1 << 0
-    static let wallSmash:UInt32 = 0x1 << 1
-    static let sprayTanSmash:UInt32 = 0x1 << 2
-    static let groundSmash:UInt32 = 0x1 << 3
+    static let trumpSmash:UInt32 = 1
+    static let wallSmash:UInt32 = 2
+    static let sprayTanSmash:UInt32 = 4
+//    static let groundSmash:UInt32 = 0x1 << 8
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstTime: Bool = true
     
@@ -38,6 +38,8 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView)
     {
+        physicsWorld.contactDelegate = self
+        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
         
@@ -51,6 +53,8 @@ class GameScene: SKScene {
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
         trumpRun.size = CGSize(width: 320, height: 220)
         trumpRun.position = CGPoint(x: -200, y: (self.scene?.size.height)! * -0.33)
+        trumpRun.physicsBody = SKPhysicsBody(rectangleOf: trumpRun.size)
+        trumpRun.physicsBody?.affectedByGravity = false
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
@@ -67,8 +71,9 @@ class GameScene: SKScene {
         
 //      let randomDistance = random(min: 0.004, max: 0.010)
         let distance = CGFloat(self.frame.width + wall.frame.width)
+        let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance/3))
 //      replace the argunment for time interval in following line with a variable that changes every ~20 seconds to make it faster
-        let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(1.4))
+        //let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(1.4))
 //      replaced following line with '2' in line above this
 //      randomDistance * distance / 4
         let removeWalls = SKAction.removeFromParent()
@@ -81,6 +86,26 @@ class GameScene: SKScene {
         run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
     }
     
+//    func didBegin(_ contact: SKPhysicsContact){
+//
+//        let firstBody = contact.bodyA
+//        let secondBody = contact.bodyB
+//
+//        if firstBody.categoryBitMask == CollisionBitMask.trumpSmash && secondBody.categoryBitMask == CollisionBitMask.wallSmash || firstBody.categoryBitMask == CollisionBitMask.wallSmash && secondBody.categoryBitMask == CollisionBitMask.trumpSmash
+//        {
+//            enumerateChildNodes(withName: "wall", using: ({
+//                (firstBody, error) in
+//                NSLog("contact")
+//                firstBody.speed = 0
+//                self.removeAllActions()
+//            }))
+//        }
+//    }
+//
+//    func didEndContact(contact: SKPhysicsContact){
+//
+//    }
+    
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
             trumpToggleJump()
@@ -90,6 +115,9 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
             if gameStart == true {
+                moveGround()
+                moveGround()
+                moveGround()
                 moveGround()
                 moveGround()
                 moveGround()
@@ -134,7 +162,7 @@ class GameScene: SKScene {
     func trumpToggleJump() {
             if trumpRun.position.y < (self.scene?.size.height)! * -0.30 {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
-                let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
+                let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.4)
                 let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
                 trumpRun.run(jump)
         }
@@ -147,12 +175,12 @@ class GameScene: SKScene {
         let trumpWall = SKSpriteNode(imageNamed: "wall")
         
         trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 475)
-        trumpWall.setScale(0.55)
+        trumpWall.setScale(0.35)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
-        trumpWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
-        trumpWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
-        trumpWall.physicsBody?.contactTestBitMask = CollisionMask.trumpSmash
-        trumpWall.physicsBody?.isDynamic = false
+        //trumpWall.physicsBody?.categoryBitMask = CollisionBitMask.wallSmash
+       // trumpWall.physicsBody?.collisionBitMask = CollisionBitMask.trumpSmash
+        //trumpWall.physicsBody?.contactTestBitMask = CollisionBitMask.trumpSmash
+        //trumpWall.physicsBody?.isDynamic = false
         trumpWall.physicsBody?.affectedByGravity = false
         
         wall.addChild(trumpWall)
@@ -175,14 +203,15 @@ class GameScene: SKScene {
         let trump = SKSpriteNode(texture: SKTextureAtlas(named:"player").textureNamed("trump1"))
         trump.size = CGSize(width: 50, height: 50)
         trump.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
-        trump.physicsBody = SKPhysicsBody(circleOfRadius: trump.size.width / 2)
-        trump.physicsBody?.linearDamping = 1.1
-        trump.physicsBody?.restitution = 0
-        trump.physicsBody?.categoryBitMask = CollisionMask.trumpSmash
-        trump.physicsBody?.collisionBitMask = CollisionMask.wallSmash | CollisionMask.groundSmash
-        trump.physicsBody?.contactTestBitMask = CollisionMask.wallSmash | CollisionMask.sprayTanSmash | CollisionMask.groundSmash
+        trump.physicsBody = SKPhysicsBody(circleOfRadius: trump.size.width)
+       // trump.physicsBody?.linearDamping = 1.1
+      //  trump.physicsBody?.restitution = 0
+       // trump.physicsBody?.categoryBitMask = CollisionBitMask.trumpSmash
+      //  trump.physicsBody?.collisionBitMask = CollisionBitMask.wallSmash
+      //  trump.physicsBody?.collisionBitMask = CollisionBitMask.wallSmash
+      //  trump.physicsBody?.contactTestBitMask = CollisionBitMask.wallSmash
         trump.physicsBody?.affectedByGravity = false
-        trump.physicsBody?.isDynamic = true
+        //trump.physicsBody?.isDynamic = true
         return trump
     }
     
@@ -193,7 +222,6 @@ class GameScene: SKScene {
                 NSLog("logged")
                 self.wall = self.createWall()
                 self.addChild(self.wall)
-                
             })
         } else{
             NSLog("...")
