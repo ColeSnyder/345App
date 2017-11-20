@@ -14,7 +14,7 @@ import GameplayKit
 //    static let trumpSmash:UInt32 = 1
 //    static let wallSmash:UInt32 = 2
 //    static let sprayTanSmash:UInt32 = 4
-////    static let groundSmash:UInt32 = 0x1 << 8
+//    static let groundSmash:UInt32 = 0x1 << 8
 //}
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -70,7 +70,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         subLabel.fontColor = SKColor.white
         subLabel.position = CGPoint(x: 0, y: 450)
         
-//      let randomDistance = random(min: 0.004, max: 0.010)
         let distance = CGFloat(self.frame.width + wall.frame.width)
         let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance/3))
 //      replace the argunment for time interval in following line with a variable that changes every ~20 seconds to make it faster
