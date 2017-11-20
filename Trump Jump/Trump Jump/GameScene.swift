@@ -19,11 +19,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstTime: Bool = true
     var dead = Bool(false)
+    var score = 0
     var trumpRun = SKSpriteNode()
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
     var restartBtn = SKSpriteNode()
     var ground = SKSpriteNode()
+    var restartButton = SKSpriteNode()
+    var highscore = SKLabelNode()
     var trump = SKSpriteNode()
     var trumpNormalLeft = SKSpriteNode()
     var run: Bool = false
@@ -81,16 +84,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
+        
+
         run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
     }
-    
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
             trumpToggleJump()
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
+
     }
-    
     override func update(_ currentTime: TimeInterval) {
             if gameStart == true {
                 moveGround()
@@ -196,7 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func createRestartBtn()
+    func createRestartButton()
     {
         restartBtn = SKSpriteNode(imageNamed: "restart")
         restartBtn.size = CGSize(width:100, height:100)
@@ -205,6 +209,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartBtn.setScale(0)
         self.addChild(restartBtn)
         restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
+    }
+    func restartScene()
+    {
+        self.removeAllChildren()
+        self.removeAllActions()
+        dead = false
+        firstTime = true
+        score = 0
+        //we need to re-initialize all of the things needed to create a new game
+    }
+    func createHighscoreLabel() -> SKLabelNode
+    {
+        let highscoreLbl = SKLabelNode()
+        highscoreLbl.position = CGPoint(x: self.frame.width - 80, y: self.frame.height - 22)
+        highscoreLbl.text = "Highest Score: 0"
+        highscoreLbl.zPosition = 5
+        highscoreLbl.fontSize = 15
+        highscoreLbl.fontName = "Helvetica-Bold"
+        return highscoreLbl
     }
     
 }
