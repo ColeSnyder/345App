@@ -9,13 +9,13 @@
 import SpriteKit
 import GameplayKit
 
-struct CollisionBitMask
-{
-    static let trumpSmash:UInt32 = 1
-    static let wallSmash:UInt32 = 2
-    static let sprayTanSmash:UInt32 = 4
-//    static let groundSmash:UInt32 = 0x1 << 8
-}
+//struct CollisionBitMask
+//{
+//    static let trumpSmash:UInt32 = 1
+//    static let wallSmash:UInt32 = 2
+//    static let sprayTanSmash:UInt32 = 4
+////    static let groundSmash:UInt32 = 0x1 << 8
+//}
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -51,10 +51,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
-        trumpRun.size = CGSize(width: 320, height: 220)
+        trumpRun.size = CGSize(width: 220, height: 220)
         trumpRun.position = CGPoint(x: -200, y: (self.scene?.size.height)! * -0.33)
-        trumpRun.physicsBody = SKPhysicsBody(rectangleOf: trumpRun.size)
+        trumpRun.physicsBody = SKPhysicsBody(circleOfRadius: 60)
         trumpRun.physicsBody?.affectedByGravity = false
+        trumpRun.physicsBody?.isDynamic = true
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
@@ -85,26 +86,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(trumpRun)
         run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
     }
-    
-//    func didBegin(_ contact: SKPhysicsContact){
-//
-//        let firstBody = contact.bodyA
-//        let secondBody = contact.bodyB
-//
-//        if firstBody.categoryBitMask == CollisionBitMask.trumpSmash && secondBody.categoryBitMask == CollisionBitMask.wallSmash || firstBody.categoryBitMask == CollisionBitMask.wallSmash && secondBody.categoryBitMask == CollisionBitMask.trumpSmash
-//        {
-//            enumerateChildNodes(withName: "wall", using: ({
-//                (firstBody, error) in
-//                NSLog("contact")
-//                firstBody.speed = 0
-//                self.removeAllActions()
-//            }))
-//        }
-//    }
-//
-//    func didEndContact(contact: SKPhysicsContact){
-//
-//    }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
@@ -177,10 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 475)
         trumpWall.setScale(0.35)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
-        //trumpWall.physicsBody?.categoryBitMask = CollisionBitMask.wallSmash
-       // trumpWall.physicsBody?.collisionBitMask = CollisionBitMask.trumpSmash
-        //trumpWall.physicsBody?.contactTestBitMask = CollisionBitMask.trumpSmash
-        //trumpWall.physicsBody?.isDynamic = false
+        trumpWall.physicsBody?.isDynamic = false
         trumpWall.physicsBody?.affectedByGravity = false
         
         wall.addChild(trumpWall)
@@ -204,14 +182,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trump.size = CGSize(width: 50, height: 50)
         trump.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
         trump.physicsBody = SKPhysicsBody(circleOfRadius: trump.size.width)
-       // trump.physicsBody?.linearDamping = 1.1
-      //  trump.physicsBody?.restitution = 0
-       // trump.physicsBody?.categoryBitMask = CollisionBitMask.trumpSmash
-      //  trump.physicsBody?.collisionBitMask = CollisionBitMask.wallSmash
-      //  trump.physicsBody?.collisionBitMask = CollisionBitMask.wallSmash
-      //  trump.physicsBody?.contactTestBitMask = CollisionBitMask.wallSmash
         trump.physicsBody?.affectedByGravity = false
-        //trump.physicsBody?.isDynamic = true
         return trump
     }
     
