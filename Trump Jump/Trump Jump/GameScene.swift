@@ -78,7 +78,7 @@ class GameScene: SKScene {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
-        run(SKAction.playSoundFileNamed("invincible.mp3", waitForCompletion: false))
+        run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){

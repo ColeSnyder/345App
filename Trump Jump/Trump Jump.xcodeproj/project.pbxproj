@@ -17,9 +17,8 @@
 		6E301F181FAD205700BF9EB7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E301F161FAD205700BF9EB7 /* LaunchScreen.storyboard */; };
 		6E301F231FAD205700BF9EB7 /* Trump_JumpTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E301F221FAD205700BF9EB7 /* Trump_JumpTests.swift */; };
 		6E301F2E1FAD205700BF9EB7 /* Trump_JumpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E301F2D1FAD205700BF9EB7 /* Trump_JumpUITests.swift */; };
+		6E7351AC1FC345D700C5214D /* reflections.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6E7351AB1FC345D700C5214D /* reflections.mp3 */; };
 		6EB49A0F1FAD7BB40036D041 /* Images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6EB49A0E1FAD7BB40036D041 /* Images.atlas */; };
-		6EC9E19C1FC29EAB00E66909 /* infectious.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6EC9E19B1FC29EAB00E66909 /* infectious.mp3 */; };
-		6EC9E19E1FC2A12600E66909 /* invincible.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6EC9E19D1FC2A12600E66909 /* invincible.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +55,8 @@
 		6E301F291FAD205700BF9EB7 /* Trump JumpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Trump JumpUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E301F2D1FAD205700BF9EB7 /* Trump_JumpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trump_JumpUITests.swift; sourceTree = "<group>"; };
 		6E301F2F1FAD205700BF9EB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E7351AB1FC345D700C5214D /* reflections.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = reflections.mp3; sourceTree = "<group>"; };
 		6EB49A0E1FAD7BB40036D041 /* Images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Images.atlas; sourceTree = "<group>"; };
-		6EC9E19B1FC29EAB00E66909 /* infectious.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = infectious.mp3; sourceTree = "<group>"; };
-		6EC9E19D1FC2A12600E66909 /* invincible.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = invincible.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,8 +117,7 @@
 				6E301F141FAD205700BF9EB7 /* Assets.xcassets */,
 				6E301F161FAD205700BF9EB7 /* LaunchScreen.storyboard */,
 				6E301F191FAD205700BF9EB7 /* Info.plist */,
-				6EC9E19D1FC2A12600E66909 /* invincible.mp3 */,
-				6EC9E19B1FC29EAB00E66909 /* infectious.mp3 */,
+				6E7351AB1FC345D700C5214D /* reflections.mp3 */,
 			);
 			path = "Trump Jump";
 			sourceTree = "<group>";
@@ -250,14 +247,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E7351AC1FC345D700C5214D /* reflections.mp3 in Resources */,
 				6E301F131FAD205700BF9EB7 /* Main.storyboard in Resources */,
 				6E301F0A1FAD205700BF9EB7 /* GameScene.sks in Resources */,
 				6E301F151FAD205700BF9EB7 /* Assets.xcassets in Resources */,
-				6EC9E19C1FC29EAB00E66909 /* infectious.mp3 in Resources */,
 				6EB49A0F1FAD7BB40036D041 /* Images.atlas in Resources */,
 				6E301F181FAD205700BF9EB7 /* LaunchScreen.storyboard in Resources */,
 				6E301F0C1FAD205700BF9EB7 /* Actions.sks in Resources */,
-				6EC9E19E1FC2A12600E66909 /* invincible.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
