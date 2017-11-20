@@ -78,6 +78,7 @@ class GameScene: SKScene {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
+        run(SKAction.playSoundFileNamed("invincible.mp3", waitForCompletion: false))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -89,6 +90,8 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
             if gameStart == true {
+                moveGround()
+                moveGround()
                 moveGround()
                 moveGround()
                 moveGround()
@@ -193,7 +196,7 @@ class GameScene: SKScene {
                 
             })
         } else{
-            NSLog("fuck")
+            NSLog("...")
         }
     }
     
