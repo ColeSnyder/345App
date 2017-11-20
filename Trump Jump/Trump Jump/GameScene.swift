@@ -74,7 +74,19 @@ class GameScene: SKScene {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
-//        self.spawnWall()
+        self.spawnWall()
+        
+//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
+//
+//            range = Double((arc4random_uniform(6)+1))
+//
+//            let xrandom = CGFloat((arc4random_uniform(300)))
+//
+//            let rock = SKSpriteNode(imageNamed: "rock_30x30")
+//            rock.position = CGPoint(x: CGFloat(xrandom), y: self.player.position.y - 300)
+//            self.addChild(rock)
+//
+//        })
         
     }
     
@@ -85,6 +97,7 @@ class GameScene: SKScene {
             trump.physicsBody?.affectedByGravity = true
 //            self.wall = self.createWall()
 //            self.addChild(self.wall)
+
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -139,7 +152,7 @@ class GameScene: SKScene {
         let trumpWall = SKSpriteNode(imageNamed: "wall")
         
         trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 550)
-        trumpWall.setScale(0.75)
+        trumpWall.setScale(0.70)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
         trumpWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
         trumpWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
@@ -178,13 +191,24 @@ class GameScene: SKScene {
         return trump
     }
     
-//    func spawnWall(){
-//        while let alive: Bool = true {
-//            let when = DispatchTime.now() + 2 // change 2 to desired number of seconds
+    func spawnWall(){
+        
+        let alive: Bool = true
+        
+        let when = DispatchTime.now() + 1 // change time to desired number of seconds
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            NSLog("logged")
+            self.wall = self.createWall()
+            self.addChild(self.wall)
+        }
+        
+//        while alive {
+//            let when = DispatchTime.now() + 1 // change time to desired number of seconds
 //            DispatchQueue.main.asyncAfter(deadline: when) {
+//                NSLog("logged")
 //                self.wall = self.createWall()
 //                self.addChild(self.wall)
 //            }
 //        }
-//    }
+    }
 }
