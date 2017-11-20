@@ -20,11 +20,11 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstTime: Bool = true
-    
+    var dead = Bool(false)
     var trumpRun = SKSpriteNode()
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
-    
+    var restartBtn = SKSpriteNode()
     var ground = SKSpriteNode()
     var trump = SKSpriteNode()
     var trumpNormalLeft = SKSpriteNode()
@@ -91,6 +91,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             trumpToggleJump()
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
+        
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -157,7 +159,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 475)
         trumpWall.setScale(0.35)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
+<<<<<<< HEAD
+        //trumpWall.physicsBody?.categoryBitMask = CollisionBitMask.wallSmash
+        //trumpWall.physicsBody?.collisionBitMask = CollisionBitMask.trumpSmash
+        //trumpWall.physicsBody?.contactTestBitMask = CollisionBitMask.trumpSmash
+        //trumpWall.physicsBody?.isDynamic = false
+=======
         trumpWall.physicsBody?.isDynamic = false
+>>>>>>> a5d81e6efee75e5aed48342df6e5bc1099e74f80
         trumpWall.physicsBody?.affectedByGravity = false
         
         wall.addChild(trumpWall)
@@ -181,6 +190,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trump.size = CGSize(width: 50, height: 50)
         trump.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
         trump.physicsBody = SKPhysicsBody(circleOfRadius: trump.size.width)
+<<<<<<< HEAD
+        //trump.physicsBody?.linearDamping = 1.1
+        //trump.physicsBody?.restitution = 0
+       // trump.physicsBody?.categoryBitMask = CollisionBitMask.trumpSmash
+      //  trump.physicsBody?.collisionBitMask = CollisionBitMask.wallSmash
+      //  trump.physicsBody?.collisionBitMask = CollisionBitMask.wallSmash
+      //  trump.physicsBody?.contactTestBitMask = CollisionBitMask.wallSmash
+=======
+>>>>>>> a5d81e6efee75e5aed48342df6e5bc1099e74f80
         trump.physicsBody?.affectedByGravity = false
         return trump
     }
@@ -196,6 +214,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else{
             NSLog("...")
         }
+    }
+    func createRestartBtn()
+    {
+        restartBtn = SKSpriteNode(imageNamed: "restart")
+        restartBtn.size = CGSize(width:100, height:100)
+        restartBtn.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        restartBtn.zPosition = 6
+        restartBtn.setScale(0)
+        self.addChild(restartBtn)
+        restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
     }
     
 }
