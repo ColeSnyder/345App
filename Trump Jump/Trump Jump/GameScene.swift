@@ -19,6 +19,8 @@ struct CollisionMask
 
 class GameScene: SKScene {
     
+    var firstTime: Bool = true
+    
     var trumpRun = SKSpriteNode()
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
@@ -36,7 +38,6 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView)
     {
-        gameStart = false
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
         
@@ -64,9 +65,11 @@ class GameScene: SKScene {
         subLabel.fontColor = SKColor.white
         subLabel.position = CGPoint(x: 0, y: 450)
         
-        let randomDistance = random(min: 0.004, max: 0.010)
+//        let randomDistance = random(min: 0.004, max: 0.010)
         let distance = CGFloat(self.frame.width + wall.frame.width)
-        let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(randomDistance * distance / 4))
+        let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(1.2))
+//        replaced following line with '2' in line above this
+//        randomDistance * distance / 4
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
@@ -74,30 +77,14 @@ class GameScene: SKScene {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
-        self.spawnWall()
-        
-//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
-//
-//            range = Double((arc4random_uniform(6)+1))
-//
-//            let xrandom = CGFloat((arc4random_uniform(300)))
-//
-//            let rock = SKSpriteNode(imageNamed: "rock_30x30")
-//            rock.position = CGPoint(x: CGFloat(xrandom), y: self.player.position.y - 300)
-//            self.addChild(rock)
-//
-//        })
         
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
-            trumpToggleJump()
             gameStart = true
+            trumpToggleJump()
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
-//            self.wall = self.createWall()
-//            self.addChild(self.wall)
-
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -108,6 +95,13 @@ class GameScene: SKScene {
                 moveGround()
                 subLabel.text = ""
             }
+        
+            if gameStart == true && firstTime{
+                self.spawnWall()
+                firstTime = false
+                
+            }
+        
     }
     
     func makeGround(){
@@ -139,20 +133,22 @@ class GameScene: SKScene {
     
     func trumpToggleJump() {
             if trumpRun.position.y < (self.scene?.size.height)! * -0.30 {
-                let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.3)
+                let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
                 let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.3)
                 let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
                 trumpRun.run(jump)
         }
+        
     }
+    
     func createWall() -> SKNode {
         wall = SKNode()
         wall.name = "wall"
         
         let trumpWall = SKSpriteNode(imageNamed: "wall")
         
-        trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 550)
-        trumpWall.setScale(0.70)
+        trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 475)
+        trumpWall.setScale(0.55)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
         trumpWall.physicsBody?.categoryBitMask = CollisionMask.wallSmash
         trumpWall.physicsBody?.collisionBitMask = CollisionMask.trumpSmash
@@ -192,23 +188,17 @@ class GameScene: SKScene {
     }
     
     func spawnWall(){
-        
-        let alive: Bool = true
-        
-        let when = DispatchTime.now() + 1 // change time to desired number of seconds
-        DispatchQueue.main.asyncAfter(deadline: when) {
-            NSLog("logged")
-            self.wall = self.createWall()
-            self.addChild(self.wall)
+        if gameStart {
+            Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: {(timer: Timer) -> Void in
+                
+                NSLog("logged")
+                self.wall = self.createWall()
+                self.addChild(self.wall)
+                
+            })
+        } else{
+            NSLog("fuck")
         }
-        
-//        while alive {
-//            let when = DispatchTime.now() + 1 // change time to desired number of seconds
-//            DispatchQueue.main.asyncAfter(deadline: when) {
-//                NSLog("logged")
-//                self.wall = self.createWall()
-//                self.addChild(self.wall)
-//            }
-//        }
     }
+    
 }
