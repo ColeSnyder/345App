@@ -65,11 +65,12 @@ class GameScene: SKScene {
         subLabel.fontColor = SKColor.white
         subLabel.position = CGPoint(x: 0, y: 450)
         
-//        let randomDistance = random(min: 0.004, max: 0.010)
+//      let randomDistance = random(min: 0.004, max: 0.010)
         let distance = CGFloat(self.frame.width + wall.frame.width)
-        let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(1.2))
-//        replaced following line with '2' in line above this
-//        randomDistance * distance / 4
+//      replace the argunment for time interval in following line with a variable that changes every ~20 seconds to make it faster
+        let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(1.4))
+//      replaced following line with '2' in line above this
+//      randomDistance * distance / 4
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
@@ -77,7 +78,6 @@ class GameScene: SKScene {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -95,13 +95,10 @@ class GameScene: SKScene {
                 moveGround()
                 subLabel.text = ""
             }
-        
             if gameStart == true && firstTime{
                 self.spawnWall()
                 firstTime = false
-                
             }
-        
     }
     
     func makeGround(){
@@ -138,7 +135,6 @@ class GameScene: SKScene {
                 let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
                 trumpRun.run(jump)
         }
-        
     }
     
     func createWall() -> SKNode {
