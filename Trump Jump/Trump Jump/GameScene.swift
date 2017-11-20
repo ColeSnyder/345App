@@ -31,6 +31,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wall = SKNode()
     var moveAndRemove = SKAction()
     
+    var wallSpeed: CGFloat = 3.0
+    
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
     
@@ -69,11 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         subLabel.position = CGPoint(x: 0, y: 450)
         
         let distance = CGFloat(self.frame.width + wall.frame.width)
-        let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance/3))
-//      replace the argunment for time interval in following line with a variable that changes every ~20 seconds to make it faster
-        //let moveWalls = SKAction.moveBy(x: -distance - 200, y: 0, duration: TimeInterval(1.4))
-//      replaced following line with '2' in line above this
-//      randomDistance * distance / 4
+        let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / wallSpeed))
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
@@ -82,6 +80,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(subLabel)
         self.addChild(trumpRun)
         run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
+        self.speedOfWalls()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -185,7 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnWall(){
         if gameStart {
-            Timer.scheduledTimer(withTimeInterval: 2, repeats: true, block: {(timer: Timer) -> Void in
+            Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true, block: {(timer: Timer) -> Void in
                 
                 NSLog("logged")
                 self.wall = self.createWall()
@@ -205,6 +204,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartBtn.setScale(0)
         self.addChild(restartBtn)
         restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
+    }
+    
+    func speedOfWalls(){
+        
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
+            NSLog("$$$")
+            self.wallSpeed = self.wallSpeed + 0.5
+            let distance = CGFloat(self.frame.width + self.wall.frame.width)
+            let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
+            let removeWalls = SKAction.removeFromParent()
+            self.moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
+        })
     }
     
 }
