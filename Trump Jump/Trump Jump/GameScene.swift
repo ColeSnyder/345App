@@ -7,14 +7,6 @@
 import SpriteKit
 import GameplayKit
 
-//struct CollisionBitMask
-//{
-//    static let trumpSmash:UInt32 = 1
-//    static let wallSmash:UInt32 = 2
-//    static let sprayTanSmash:UInt32 = 4
-//    static let groundSmash:UInt32 = 0x1 << 8
-//}
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var firstTime: Bool = true
@@ -33,6 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wall = SKNode()
     var moveAndRemove = SKAction()
     var wallSpeed: CGFloat = 3.0
+    let highscoreLbl = SKLabelNode()
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
     let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
@@ -81,6 +74,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / wallSpeed))
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
+        
+       // self.createHighscoreLabel()
         
         makeGround()
         self.addChild(label1)
@@ -234,14 +229,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createHighscoreLabel() -> SKLabelNode
     {
-        let highscoreLbl = SKLabelNode()
+        //let highscoreLbl = SKLabelNode()
         highscoreLbl.position = CGPoint(x: self.frame.width - 80, y: self.frame.height - 22)
         highscoreLbl.text = "Highest Score: 0"
         highscoreLbl.zPosition = 5
         highscoreLbl.fontSize = 15
         highscoreLbl.fontName = "Helvetica-Bold"
+       // self.highScore()
         return highscoreLbl
     }
+    
+//    func highScore() -> SKLabelNode {
+//
+//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
+//            while self.dead == false {
+//                self.highscoreLbl.text = "\(self.score + 3)"
+//            }
+//        })
+//        return self.highscoreLbl
+//
+//    }
     
     func speedOfWalls(){
             Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
