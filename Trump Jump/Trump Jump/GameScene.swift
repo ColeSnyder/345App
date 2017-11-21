@@ -41,6 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView)
     {
+        dead = false
         physicsWorld.contactDelegate = self
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -82,10 +83,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(trumpRun)
-        
-
         run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
         self.speedOfWalls()
+        
     }
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
@@ -110,6 +110,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if gameStart == true && firstTime{
                 self.spawnWall()
                 firstTime = false
+            }
+        
+            if trumpRun.position.x < -425 && dead == false {
+                self.createRestartButton()
             }
     }
     
@@ -190,7 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStart {
             Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true, block: {(timer: Timer) -> Void in
                 
-                NSLog("logged")
+                NSLog("Wall Spawned")
                 self.wall = self.createWall()
                 self.addChild(self.wall)
             })
@@ -201,13 +205,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createRestartButton()
     {
-        restartBtn = SKSpriteNode(imageNamed: "restart")
-        restartBtn.size = CGSize(width:100, height:100)
-        restartBtn.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
-        restartBtn.zPosition = 6
-        restartBtn.setScale(0)
-        self.addChild(restartBtn)
-        restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
+            NSLog("Off Screen")
+            restartBtn = SKSpriteNode(imageNamed: "restart")
+            restartBtn.size = CGSize(width:100, height:100)
+            restartBtn.position = CGPoint(x: 0, y: 0)
+            restartBtn.zPosition = 6
+            restartBtn.setScale(0)
+            self.addChild(restartBtn)
+            restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
+            dead = true
     }
     func restartScene()
     {
@@ -230,14 +236,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func speedOfWalls(){
-        
+    
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
-            NSLog("$$$")
-            self.wallSpeed = self.wallSpeed + 0.5
+            self.wallSpeed = self.wallSpeed + 0.6
             let distance = CGFloat(self.frame.width + self.wall.frame.width)
             let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
             let removeWalls = SKAction.removeFromParent()
             self.moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
+            NSLog("Sped Up")
         })
     }
     
