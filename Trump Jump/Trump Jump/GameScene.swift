@@ -10,6 +10,9 @@ import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var distanceTraveled = SKLabelNode(fontNamed: "Chalkduster")
+    var meters: Int = 0
+    
     var firstTime: Bool = true
     var dead: Bool = false
     var score = 0
@@ -33,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //var musicOff: Bool = true
     
     let path = Bundle.main.path(forResource: "reflections.mp3", ofType:nil)!
-    var bombSoundEffect: AVAudioPlayer?
+    var gameMusic: AVAudioPlayer?
     
     override func didMove(to view: SKView)
     {
@@ -76,6 +79,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartLabel.fontColor = SKColor.white
         restartLabel.position = CGPoint(x: 0, y: -100)
         
+        distanceTraveled.text = "Distance: \(meters)"
+        distanceTraveled.fontSize = 40
+        distanceTraveled.fontColor = UIColor.white
+//      distanceTraveled.position = CGPoint(x: 0, y: -630)
+        distanceTraveled.position = CGPoint(x: 0, y: (self.frame.size.height) / 3)
+        
         let distance = CGFloat(self.frame.width + wall.frame.width)
         let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / wallSpeed))
         let removeWalls = SKAction.removeFromParent()
@@ -86,8 +95,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         makeGround()
         self.addChild(label1)
         self.addChild(subLabel)
+//      self.addChild(distanceTraveled)
         self.addChild(restartLabel)
         self.addChild(trumpRun)
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -102,7 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if restartBtn.contains(location) {
                 
                 goToGameScene()
-                bombSoundEffect?.stop()
+                gameMusic?.stop()
             }
         }
     }
@@ -119,18 +130,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveGround()
                 moveGround()
                 subLabel.text = ""
+                
+//                Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
+//                    while self.dead == false {
+//                        self.updateScoreWithValue(value: 3)
+//                    }
+//                })
             }
             if gameStart == true && firstTime{
                 self.spawnWall()
-                bombSoundEffect?.stop()
+                gameMusic?.stop()
                 firstTime = false
                 self.speedOfWalls()
+                self.addChild(distanceTraveled)
+                //meters = meters + 1
+//                Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
+//                                        while self.dead == false {
+//                                            self.updateScoreWithValue(value: 3)
+//                                        }
+//                                    })
                 
                 let url = URL(fileURLWithPath: path)
                 
                 do {
-                    bombSoundEffect = try AVAudioPlayer(contentsOf: url)
-                    bombSoundEffect?.play()
+                    gameMusic = try AVAudioPlayer(contentsOf: url)
+                    gameMusic?.play()
                     NSLog("playing music")
                 } catch {
                     NSLog("couldn't play music")
@@ -277,6 +301,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        })
 //        return self.highscoreLbl
 //
+//    }
+    
+//    func updateScoreWithValue (value: Int) {
+//        meters += value
+//        distanceTraveled.text = ("Meters: \(meters)")
 //    }
     
     func speedOfWalls(){
