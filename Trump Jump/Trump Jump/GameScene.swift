@@ -37,6 +37,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView)
     {
+        firstTime = true
         dead = false
         physicsWorld.contactDelegate = self
         
@@ -87,9 +88,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(subLabel)
         self.addChild(restartLabel)
         self.addChild(trumpRun)
-        self.speedOfWalls()
-       // self.playMusic()
-        //run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -102,8 +100,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.location(in: self)
             
             if restartBtn.contains(location) {
-                //bombSoundEffect?.stop()
+                
                 goToGameScene()
+                bombSoundEffect?.stop()
             }
         }
     }
@@ -123,19 +122,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if gameStart == true && firstTime{
                 self.spawnWall()
-                //bombSoundEffect?.stop()
+                bombSoundEffect?.stop()
                 firstTime = false
+                self.speedOfWalls()
+                
+                let url = URL(fileURLWithPath: path)
+                
+                do {
+                    bombSoundEffect = try AVAudioPlayer(contentsOf: url)
+                    bombSoundEffect?.play()
+                    NSLog("playing music")
+                } catch {
+                    NSLog("couldn't play music")
+                }
+
             }
-            if trumpRun.position.x < -425 && dead == false {
+            if trumpRun.position.x < -350 && dead == false {
                 self.createRestartButton()
+                //trumpRun.isUserInteractionEnabled = false
                 restartLabel.text = "Restart Game"
-                //bombSoundEffect?.stop()
-                //musicOff = true
+                gameStart = false
             }
-//            if dead == false && musicOff == true{
-//                run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
-//                musicOff = false
-//            }
     }
     
     func makeGround(){
@@ -168,7 +175,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func trumpToggleJump() {
             if trumpRun.position.y < (self.scene?.size.height)! * -0.30 {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
-                let jumpDownAction = SKAction.moveBy(x: 0, y:-500, duration:0.4)
+                let jumpDownAction = SKAction.moveTo(y: (self.scene?.size.height)! * -0.33, duration: 0.4)
                 let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
                 trumpRun.run(jump)
         }
@@ -273,14 +280,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    }
     
     func speedOfWalls(){
-            Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
-                self.wallSpeed = self.wallSpeed + 0.8
-                let distance = CGFloat(self.frame.width + self.wall.frame.width)
-                let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
-                let removeWalls = SKAction.removeFromParent()
-                self.moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
-                NSLog("Sped Up")
-            })
+        Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
+            self.wallSpeed = self.wallSpeed + 0.8
+            let distance = CGFloat(self.frame.width + self.wall.frame.width)
+            let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
+            let removeWalls = SKAction.removeFromParent()
+            self.moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
+            NSLog("Sped Up")
+            self.moveGround()
+        })
     }
     
     func goToGameScene() {
@@ -289,15 +297,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameScene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene!.view?.presentScene(gameScene, transition: transition)
     }
-    
-//    func playMusic() {
-//        let url = URL(fileURLWithPath: path)
-//        do {
-//            bombSoundEffect = try AVAudioPlayer(contentsOf: url)
-//            bombSoundEffect?.play()
-//        } catch {
-//            NSLog("cant Play Music")
-//        }
-//    }
     
 }
