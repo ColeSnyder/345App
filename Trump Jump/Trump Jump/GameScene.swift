@@ -130,12 +130,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.createRestartButton()
                 restartLabel.text = "Restart Game"
                 //bombSoundEffect?.stop()
-                musicOff = true
+                //musicOff = true
             }
-            if dead == false && musicOff == true{
-                run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
-                musicOff = false
-            }
+//            if dead == false && musicOff == true{
+//                run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
+//                musicOff = false
+//            }
     }
     
     func makeGround(){
