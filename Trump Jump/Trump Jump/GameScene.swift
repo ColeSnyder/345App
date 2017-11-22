@@ -6,6 +6,7 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
@@ -29,6 +30,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
     let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
+    //var musicOff: Bool = true
+    
+    let path = Bundle.main.path(forResource: "reflections.mp3", ofType:nil)!
+    var bombSoundEffect: AVAudioPlayer?
     
     override func didMove(to view: SKView)
     {
@@ -75,15 +80,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
-       // self.createHighscoreLabel()
+        // self.createHighscoreLabel()
         
         makeGround()
         self.addChild(label1)
         self.addChild(subLabel)
         self.addChild(restartLabel)
         self.addChild(trumpRun)
-        run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
         self.speedOfWalls()
+       // self.playMusic()
+        //run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
     }
     
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -91,6 +97,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             trumpToggleJump()
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
+        
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            if restartBtn.contains(location) {
+                //bombSoundEffect?.stop()
+                goToGameScene()
+            }
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -108,11 +123,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             if gameStart == true && firstTime{
                 self.spawnWall()
+                //bombSoundEffect?.stop()
                 firstTime = false
             }
             if trumpRun.position.x < -425 && dead == false {
                 self.createRestartButton()
                 restartLabel.text = "Restart Game"
+                //bombSoundEffect?.stop()
+                musicOff = true
+            }
+            if dead == false && musicOff == true{
+                run(SKAction.playSoundFileNamed("reflections.mp3", waitForCompletion: false))
+                musicOff = false
             }
     }
     
@@ -190,7 +212,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func spawnWall(){
-        let randomDistance = random(min: 1.1, max: 1.6)
+        let randomDistance = random(min: 1.0, max: 1.6)
         
         if gameStart {
             Timer.scheduledTimer(withTimeInterval: TimeInterval(randomDistance), repeats: true, block: {(timer: Timer) -> Void in
@@ -260,5 +282,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 NSLog("Sped Up")
             })
     }
+    
+    func goToGameScene() {
+        let gameScene = GameScene(size: self.size)
+        let transition = SKTransition.doorsCloseHorizontal(withDuration: 0.5)
+        gameScene.scaleMode = SKSceneScaleMode.aspectFill
+        self.scene!.view?.presentScene(gameScene, transition: transition)
+    }
+    
+//    func playMusic() {
+//        let url = URL(fileURLWithPath: path)
+//        do {
+//            bombSoundEffect = try AVAudioPlayer(contentsOf: url)
+//            bombSoundEffect?.play()
+//        } catch {
+//            NSLog("cant Play Music")
+//        }
+//    }
     
 }
