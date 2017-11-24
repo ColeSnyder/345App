@@ -45,7 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = UIColor.blue
+        self.backgroundColor = UIColor.white
         //let background = SKSpriteNode(imageNamed: "bg")
         textureAtlas = SKTextureAtlas(named: "Images")
         for i in 1...textureAtlas.textureNames.count
