@@ -13,9 +13,10 @@ import GameplayKit
 class GameViewController: UIViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
         
         super.viewDidLoad()
+        
+        //self.view?.backgroundColor = UIColor(patternImage: UIImage(named: "Skyy.png")!)
         let scene = GameScene(size: view.bounds.size)
         let skView = view as! SKView
         

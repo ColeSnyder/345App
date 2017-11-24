@@ -10,6 +10,8 @@ import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    var background = SKSpriteNode(imageNamed: "Skyy")
+    
     var distanceTraveled = SKLabelNode(fontNamed: "Chalkduster")
     var meters: Int = 0
     
@@ -40,6 +42,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView)
     {
+        
+        //self.view?.backgroundColor = UIColor(patternImage: UIImage(named: "Skyy.png")!)
+        
         firstTime = true
         dead = false
         physicsWorld.contactDelegate = self
@@ -53,12 +58,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let Name = "trump\(i).png"
             textureArray.append(SKTexture(imageNamed: Name))
         }
-        let background = SKSpriteNode(imageNamed: "Skyy")
-        background.anchorPoint = CGPoint.init(x: -200, y: (self.scene?.size.height)!)
-            //background.position = CGPoint(x:CGFloat(i) * self.frame.width, y:0)
-        background.name = "background"
-        background.size = (self.view?.bounds.size)!
-        self.addChild(background)
+//        let background = SKSpriteNode(imageNamed: "Skyy")
+//        background.anchorPoint = CGPoint.init(x: -200, y: (self.scene?.size.height)!)
+//        background.position = CGPoint(x:CGFloat(i) * self.frame.width, y:0)
+//        background.name = "background"
+//        background.size = (self.view?.bounds.size)!
+//        self.addChild(background)
         
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
         trumpRun.size = CGSize(width: 220, height: 220)
@@ -68,7 +73,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trumpRun.physicsBody?.isDynamic = true
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        self.backgroundColor = UIColor.blue
         
         label1.text = "Trump Jump"
         label1.fontSize = 75
@@ -98,12 +102,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // self.createHighscoreLabel()
         
+        background.position = CGPoint(x: frame.size.width * 0.0, y: frame.size.height * 0.05)
+        addChild(background)
+        background.zPosition = 0
+        
         makeGround()
         self.addChild(label1)
+        label1.zPosition = 1
         self.addChild(subLabel)
-//      self.addChild(distanceTraveled)
+        subLabel.zPosition = 1
         self.addChild(restartLabel)
+        restartLabel.zPosition = 1
         self.addChild(trumpRun)
+        trumpRun.zPosition = 1
         
     }
     
@@ -186,6 +197,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ground.anchorPoint = CGPoint(x: 0.5, y: 0.5)
             ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: -(self.frame.size.height/2))
             self.addChild(ground)
+            ground.zPosition = 1
         }
     }
     func moveGround() {
