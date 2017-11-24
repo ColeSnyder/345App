@@ -46,13 +46,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.blue
-        
+        //let background = SKSpriteNode(imageNamed: "bg")
         textureAtlas = SKTextureAtlas(named: "Images")
         for i in 1...textureAtlas.textureNames.count
         {
             let Name = "trump\(i).png"
             textureArray.append(SKTexture(imageNamed: Name))
         }
+        let background = SKSpriteNode(imageNamed: "Skyy")
+        background.anchorPoint = CGPoint.init(x: -200, y: (self.scene?.size.height)!)
+            //background.position = CGPoint(x:CGFloat(i) * self.frame.width, y:0)
+        background.name = "background"
+        background.size = (self.view?.bounds.size)!
+        self.addChild(background)
         
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
         trumpRun.size = CGSize(width: 220, height: 220)
@@ -131,11 +137,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveGround()
                 subLabel.text = ""
                 
-//                Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
-//                    while self.dead == false {
-//                        self.updateScoreWithValue(value: 3)
-//                    }
-//                })
+                //Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
+                   // while self.dead == false
+                   // {
+                        //if (2 % 1 == 0)
+                       // {
+                        //self.updateScoreWithValue(value: 3)
+                        //}
+                    //}
+              //})
             }
             if gameStart == true && firstTime{
                 self.spawnWall()
@@ -144,7 +154,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.speedOfWalls()
                 self.addChild(distanceTraveled)
                 //meters = meters + 1
-//                Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
+//              Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
 //                                        while self.dead == false {
 //                                            self.updateScoreWithValue(value: 3)
 //                                        }
@@ -168,8 +178,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameStart = false
             }
     }
-    
-    func makeGround(){
+    func makeGround() {
         for i in 0...3 {
             let ground = SKSpriteNode(imageNamed: "groundDiff")
             ground.name = "Ground"
@@ -179,8 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(ground)
         }
     }
-    
-    func moveGround(){
+    func moveGround() {
         self.enumerateChildNodes(withName: "Ground", using: ({
             (node, error) in
             node.position.x -= 2
@@ -244,10 +252,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnWall(){
         let randomDistance = random(min: 1.0, max: 1.6)
-        
         if gameStart {
             Timer.scheduledTimer(withTimeInterval: TimeInterval(randomDistance), repeats: true, block: {(timer: Timer) -> Void in
-                
                 NSLog("Wall Spawned")
                 self.wall = self.createWall()
                 self.addChild(self.wall)
@@ -303,12 +309,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //
 //    }
     
-//    func updateScoreWithValue (value: Int) {
-//        meters += value
-//        distanceTraveled.text = ("Meters: \(meters)")
-//    }
+        func updateScoreWithValue (value: Int) {
+            meters += value
+            distanceTraveled.text = ("Meters: \(meters)")
+        }
     
-    func speedOfWalls(){
+    func speedOfWalls() {
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
             self.wallSpeed = self.wallSpeed + 0.8
             let distance = CGFloat(self.frame.width + self.wall.frame.width)
@@ -319,7 +325,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.moveGround()
         })
     }
-    
     func goToGameScene() {
         let gameScene = GameScene(size: self.size)
         let transition = SKTransition.doorsCloseHorizontal(withDuration: 0.5)
