@@ -127,7 +127,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-            if gameStart == true {
+            if (gameStart == true) && (self.dead == false) {
                 moveGround()
                 moveGround()
                 moveGround()
@@ -138,7 +138,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveGround()
                 moveGround()
                 subLabel.text = ""
-                
             }
             if gameStart == true && firstTime{
                 
@@ -149,7 +148,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let wait = SKAction.wait(forDuration:0.3)
                 let action = SKAction.run {
                     self.meters = self.meters + 1
+                    if (self.dead == false) {
                     self.distanceTraveled.text = "Distance: \(self.meters)"
+                    }
                 }
                 
                     run(SKAction.repeatForever(SKAction.sequence([wait, action])))
@@ -257,8 +258,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStart {
             Timer.scheduledTimer(withTimeInterval: TimeInterval(randomDistance), repeats: true, block: {(timer: Timer) -> Void in
                 NSLog("Wall Spawned")
+               if (self.dead == false) {
                 self.wall = self.createWall()
                 self.addChild(self.wall)
+                }
             })
         } else{
             NSLog("...")
@@ -302,9 +305,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func updateScoreWithValue (value: Int) {
         meters += value
+        if (self.dead == false) {
         distanceTraveled.text = ("Meters: \(meters)")
+        }
     }
-    
     func speedOfWalls() {
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
             self.wallSpeed = self.wallSpeed + 0.8
@@ -316,7 +320,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.moveGround()
         })
     }
-    
     func goToGameScene() {
         let gameScene = GameScene(size: self.size)
         let transition = SKTransition.doorsCloseHorizontal(withDuration: 0.5)
