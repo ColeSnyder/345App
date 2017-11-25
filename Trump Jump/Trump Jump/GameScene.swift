@@ -42,28 +42,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView)
     {
-        
-        //self.view?.backgroundColor = UIColor(patternImage: UIImage(named: "Skyy.png")!)
-        
         firstTime = true
         dead = false
         physicsWorld.contactDelegate = self
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.white
-        //let background = SKSpriteNode(imageNamed: "bg")
         textureAtlas = SKTextureAtlas(named: "Images")
         for i in 1...textureAtlas.textureNames.count
         {
             let Name = "trump\(i).png"
             textureArray.append(SKTexture(imageNamed: Name))
         }
-//        let background = SKSpriteNode(imageNamed: "Skyy")
-//        background.anchorPoint = CGPoint.init(x: -200, y: (self.scene?.size.height)!)
-//        background.position = CGPoint(x:CGFloat(i) * self.frame.width, y:0)
-//        background.name = "background"
-//        background.size = (self.view?.bounds.size)!
-//        self.addChild(background)
         
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
         trumpRun.size = CGSize(width: 220, height: 220)
@@ -100,8 +90,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
         
-        // self.createHighscoreLabel()
-        
         background.position = CGPoint(x: frame.size.width * 0.0, y: frame.size.height * 0.05)
         addChild(background)
         background.zPosition = 0
@@ -115,6 +103,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartLabel.zPosition = 1
         self.addChild(trumpRun)
         trumpRun.zPosition = 1
+        
+      //  self.addChild(distanceTraveled)
+        distanceTraveled.zPosition = 1
         
     }
     
@@ -148,28 +139,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveGround()
                 subLabel.text = ""
                 
-                //Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
-                   // while self.dead == false
-                   // {
-                        //if (2 % 1 == 0)
-                       // {
-                        //self.updateScoreWithValue(value: 3)
-                        //}
-                    //}
-              //})
             }
             if gameStart == true && firstTime{
+                
+                distanceTraveled.fontSize = 40
+                distanceTraveled.fontColor = UIColor.white
+                distanceTraveled.position = CGPoint(x: 0, y: (self.frame.size.height) / 3)
+
+                let wait = SKAction.wait(forDuration:0.3)
+                let action = SKAction.run {
+                    self.meters = self.meters + 1
+                    self.distanceTraveled.text = "Distance: \(self.meters)"
+                }
+                
+                    run(SKAction.repeatForever(SKAction.sequence([wait, action])))
+                
                 self.spawnWall()
                 gameMusic?.stop()
                 firstTime = false
                 self.speedOfWalls()
                 self.addChild(distanceTraveled)
-                //meters = meters + 1
-//              Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
-//                                        while self.dead == false {
-//                                            self.updateScoreWithValue(value: 3)
-//                                        }
-//                                    })
                 
                 let url = URL(fileURLWithPath: path)
                 
@@ -182,6 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
 
             }
+        
             if trumpRun.position.x < -350 && dead == false {
                 self.createRestartButton()
                 //trumpRun.isUserInteractionEnabled = false
@@ -310,21 +300,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return highscoreLbl
     }
     
-//    func highScore() -> SKLabelNode {
-//
-//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(timer: Timer) -> Void in
-//            while self.dead == false {
-//                self.highscoreLbl.text = "\(self.score + 3)"
-//            }
-//        })
-//        return self.highscoreLbl
-//
-//    }
-    
-        func updateScoreWithValue (value: Int) {
-            meters += value
-            distanceTraveled.text = ("Meters: \(meters)")
-        }
+    func updateScoreWithValue (value: Int) {
+        meters += value
+        distanceTraveled.text = ("Meters: \(meters)")
+    }
     
     func speedOfWalls() {
         Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
@@ -337,6 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.moveGround()
         })
     }
+    
     func goToGameScene() {
         let gameScene = GameScene(size: self.size)
         let transition = SKTransition.doorsCloseHorizontal(withDuration: 0.5)
