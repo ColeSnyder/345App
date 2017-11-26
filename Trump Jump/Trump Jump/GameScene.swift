@@ -153,7 +153,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 
-                    run(SKAction.repeatForever(SKAction.sequence([wait, action])))
+                run(SKAction.repeatForever(SKAction.sequence([wait, action])))
                 
                 self.spawnWall()
                 gameMusic?.stop()
@@ -213,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let jumpDownAction = SKAction.moveTo(y: (self.scene?.size.height)! * -0.33, duration: 0.4)
                 let jump = SKAction.sequence([jumpUpAction, jumpDownAction])
                 trumpRun.run(jump)
-        }
+            }
     }
     
     func createWall() -> SKNode {
@@ -258,9 +258,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameStart {
             Timer.scheduledTimer(withTimeInterval: TimeInterval(randomDistance), repeats: true, block: {(timer: Timer) -> Void in
                 NSLog("Wall Spawned")
-               if (self.dead == false) {
-                self.wall = self.createWall()
-                self.addChild(self.wall)
+                if (self.dead == false) {
+                    self.wall = self.createWall()
+                    self.addChild(self.wall)
                 }
             })
         } else{
@@ -270,15 +270,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createRestartButton()
     {
-            NSLog("Off Screen")
-            restartBtn = SKSpriteNode(imageNamed: "restart")
-            restartBtn.size = CGSize(width:100, height:100)
-            restartBtn.position = CGPoint(x: 0, y: 0)
-            restartBtn.zPosition = 6
-            restartBtn.setScale(0)
-            self.addChild(restartBtn)
-            restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
-            dead = true
+        NSLog("Off Screen")
+        restartBtn = SKSpriteNode(imageNamed: "restart")
+        restartBtn.size = CGSize(width:100, height:100)
+        restartBtn.position = CGPoint(x: 0, y: 0)
+        restartBtn.zPosition = 6
+        restartBtn.setScale(0)
+        self.addChild(restartBtn)
+        restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
+        dead = true
     }
     
     func restartScene()
