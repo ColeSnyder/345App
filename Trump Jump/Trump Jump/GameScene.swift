@@ -9,12 +9,9 @@ import GameplayKit
 import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
     var background = SKSpriteNode(imageNamed: "Skyy")
-    
     var distanceTraveled = SKLabelNode(fontNamed: "Chalkduster")
     var meters: Int = 0
-    
     var firstTime: Bool = true
     var dead: Bool = false
     var score = 0
@@ -35,8 +32,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
     let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
-    //var musicOff: Bool = true
-    
     let path = Bundle.main.path(forResource: "reflections.mp3", ofType:nil)!
     var gameMusic: AVAudioPlayer?
     
@@ -82,7 +77,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         distanceTraveled.text = "Distance: \(meters)"
         distanceTraveled.fontSize = 40
         distanceTraveled.fontColor = UIColor.white
-//      distanceTraveled.position = CGPoint(x: 0, y: -630)
         distanceTraveled.position = CGPoint(x: 0, y: (self.frame.size.height) / 3)
         
         let distance = CGFloat(self.frame.width + wall.frame.width)
@@ -104,11 +98,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(trumpRun)
         trumpRun.zPosition = 1
         
-      //  self.addChild(distanceTraveled)
         distanceTraveled.zPosition = 1
         
     }
-    
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
             trumpToggleJump()
@@ -125,7 +117,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
     override func update(_ currentTime: TimeInterval) {
             if (gameStart == true) && (self.dead == false) {
                 moveGround()
@@ -170,12 +161,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 } catch {
                     NSLog("couldn't play music")
                 }
-
             }
         
             if trumpRun.position.x < -350 && dead == false {
                 self.createRestartButton()
-                //trumpRun.isUserInteractionEnabled = false
                 restartLabel.text = "Restart Game"
                 gameStart = false
             }
@@ -288,18 +277,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         dead = false
         firstTime = true
         score = 0
-        //we need to re-initialize all of the things needed to create a new game
     }
     
     func createHighscoreLabel() -> SKLabelNode
     {
-        //let highscoreLbl = SKLabelNode()
         highscoreLbl.position = CGPoint(x: self.frame.width - 80, y: self.frame.height - 22)
         highscoreLbl.text = "Highest Score: 0"
         highscoreLbl.zPosition = 5
         highscoreLbl.fontSize = 15
         highscoreLbl.fontName = "Helvetica-Bold"
-       // self.highScore()
         return highscoreLbl
     }
     
@@ -310,7 +296,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     func speedOfWalls() {
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: {(timer: Timer) -> Void in
+        Timer.scheduledTimer(withTimeInterval: 7, repeats: true, block: {(timer: Timer) -> Void in
             self.wallSpeed = self.wallSpeed + 0.8
             let distance = CGFloat(self.frame.width + self.wall.frame.width)
             let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
