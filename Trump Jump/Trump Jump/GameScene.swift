@@ -1,15 +1,15 @@
 //  GameScene.swift
 //  Trump Jump
 //
-//  Created by Snyder, Cole M on 11/3/17.
-//  Copyright © 2017 Snyder, Cole M. All rights reserved.
+//  Created by Snyder, Cole M & Blong, Natasha M on 11/3/17.
+//  Copyright © 2017 Snyder, Cole M & Blong, Natasha M. All rights reserved.
 
 import SpriteKit
 import GameplayKit
 import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    var background = SKSpriteNode(imageNamed: "Skyy")
+    var background = SKSpriteNode(imageNamed: "sky")
     var distanceTraveled = SKLabelNode(fontNamed: "Chalkduster")
     var meters: Int = 0
     var firstTime: Bool = true
@@ -171,7 +171,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func makeGround() {
         for i in 0...3 {
-            let ground = SKSpriteNode(imageNamed: "groundDiff")
+            let ground = SKSpriteNode(imageNamed: "ground")
             ground.name = "Ground"
             ground.size = CGSize(width: (self.scene?.size.width)!, height: 250)
             ground.anchorPoint = CGPoint(x: 0.5, y: 0.5)

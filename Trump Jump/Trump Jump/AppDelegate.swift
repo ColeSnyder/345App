@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Trump Jump
 //
-//  Created by Snyder, Cole M on 11/3/17.
-//  Copyright © 2017 Snyder, Cole M. All rights reserved.
+//  Created by Snyder, Cole M & Blong, Natasha M on 11/3/17.
+//  Copyright © 2017 Snyder, Cole M & Blong, Natasha M. All rights reserved.
 //
 
 import UIKit
