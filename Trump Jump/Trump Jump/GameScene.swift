@@ -9,47 +9,54 @@ import GameplayKit
 import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    var background = SKSpriteNode(imageNamed: "sky")
-    var distanceTraveled = SKLabelNode(fontNamed: "Chalkduster")
-    var meters: Int = 0
+    
+    // Game Variables
+    var gameStart: Bool = false
     var firstTime: Bool = true
     var dead: Bool = false
-    var score = 0
-    var trumpRun = SKSpriteNode()
     var textureAtlas = SKTextureAtlas()
     var textureArray = [SKTexture]()
-    var restartBtn = SKSpriteNode()
-    var ground = SKSpriteNode()
-    var highscore = SKLabelNode()
+    
+    //Trump Related
     var trump = SKSpriteNode()
+    var trumpRun = SKSpriteNode()
     var trumpNormalLeft = SKSpriteNode()
     var run: Bool = false
-    var gameStart: Bool = false
+    
+    // Scene Related
+    var background = SKSpriteNode(imageNamed: "sky")
+    var ground = SKSpriteNode()
     var wall = SKNode()
     var moveAndRemove = SKAction()
     var wallSpeed: CGFloat = 3.0
-    let highscoreLbl = SKLabelNode()
+    
+    // Label Related
+    var score = 0
+    var meters: Int = 0
+    var distanceTraveled = SKLabelNode(fontNamed: "Chalkduster")
     let label1 = SKLabelNode(fontNamed: "Chalkduster")
     let subLabel = SKLabelNode(fontNamed: "Chalkduster")
     let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
+    var restartBtn = SKSpriteNode()
+    
+    // Audio
     let path = Bundle.main.path(forResource: "reflections.mp3", ofType:nil)!
     var gameMusic: AVAudioPlayer?
     
-    override func didMove(to view: SKView)
-    {
+    override func didMove(to view: SKView) {
         firstTime = true
         dead = false
         physicsWorld.contactDelegate = self
-        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.white
+        
         textureAtlas = SKTextureAtlas(named: "Images")
-        for i in 1...textureAtlas.textureNames.count
-        {
+        for i in 1...textureAtlas.textureNames.count {
             let Name = "trump\(i).png"
             textureArray.append(SKTexture(imageNamed: Name))
         }
         
+        // Trump Details
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
         trumpRun.size = CGSize(width: 250, height: 220)
         trumpRun.position = CGPoint(x: -200, y: (self.scene?.size.height)! * -0.33)
@@ -57,37 +64,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trumpRun.physicsBody?.affectedByGravity = false
         trumpRun.physicsBody?.isDynamic = true
         
-        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
-        
+        // Trump Jump label Details
         label1.text = "Trump Jump"
         label1.fontSize = 75
         label1.fontColor = SKColor.white
         label1.position = CGPoint(x: 0, y: 550)
         
+        // Start Label Details
         subLabel.text = "(Tap anywhere to start)"
         subLabel.fontSize = 35
         subLabel.fontColor = SKColor.white
         subLabel.position = CGPoint(x: 0, y: 450)
         
+        // Restart Label Details
         restartLabel.text = ""
         restartLabel.fontSize = 35
         restartLabel.fontColor = SKColor.white
         restartLabel.position = CGPoint(x: 0, y: -100)
         
+        //Distance Traveled Details
         distanceTraveled.text = "Distance: \(meters)"
         distanceTraveled.fontSize = 40
         distanceTraveled.fontColor = UIColor.white
         distanceTraveled.position = CGPoint(x: 0, y: (self.frame.size.height) / 3)
         
+        // Wall Details
         let distance = CGFloat(self.frame.width + wall.frame.width)
         let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / wallSpeed))
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
-        
         background.position = CGPoint(x: frame.size.width * 0.0, y: frame.size.height * 0.05)
+        
+        // Adding Children
         addChild(background)
         background.zPosition = 0
-        
         makeGround()
         self.addChild(label1)
         label1.zPosition = 1
@@ -97,10 +107,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartLabel.zPosition = 1
         self.addChild(trumpRun)
         trumpRun.zPosition = 1
-        
         distanceTraveled.zPosition = 1
     }
-    override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
+    override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?) {
             gameStart = true
             trumpToggleJump()
             runningTrump()
@@ -108,9 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for touch in touches {
             let location = touch.location(in: self)
-            
             if restartBtn.contains(location) {
-                
                 goToGameScene()
                 gameMusic?.stop()
             }
@@ -129,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 moveGround()
                 subLabel.text = ""
             }
-            if gameStart == true && firstTime{
+            if gameStart == true && firstTime {
                 
                 distanceTraveled.fontSize = 40
                 distanceTraveled.fontColor = UIColor.white
@@ -142,7 +149,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.distanceTraveled.text = "Distance: \(self.meters)"
                     }
                 }
-                
                 run(SKAction.repeatForever(SKAction.sequence([wait, action])))
                 
                 self.spawnWall()
@@ -277,17 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         firstTime = true
         score = 0
     }
-    
-    func createHighscoreLabel() -> SKLabelNode
-    {
-        highscoreLbl.position = CGPoint(x: self.frame.width - 80, y: self.frame.height - 22)
-        highscoreLbl.text = "Highest Score: 0"
-        highscoreLbl.zPosition = 5
-        highscoreLbl.fontSize = 15
-        highscoreLbl.fontName = "Helvetica-Bold"
-        return highscoreLbl
-    }
-    
+
     func updateScoreWithValue (value: Int) {
         meters += value
         if (self.dead == false) {
