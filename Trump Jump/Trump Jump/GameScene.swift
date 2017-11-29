@@ -51,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         trumpRun = SKSpriteNode(imageNamed: "trumpNormalStill.png")
-        trumpRun.size = CGSize(width: 220, height: 220)
+        trumpRun.size = CGSize(width: 250, height: 220)
         trumpRun.position = CGPoint(x: -200, y: (self.scene?.size.height)! * -0.33)
         trumpRun.physicsBody = SKPhysicsBody(circleOfRadius: 60)
         trumpRun.physicsBody?.affectedByGravity = false

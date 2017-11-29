@@ -19,6 +19,12 @@
 		6E301F2E1FAD205700BF9EB7 /* Trump_JumpUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E301F2D1FAD205700BF9EB7 /* Trump_JumpUITests.swift */; };
 		6E7351AC1FC345D700C5214D /* reflections.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6E7351AB1FC345D700C5214D /* reflections.mp3 */; };
 		6EB49A0F1FAD7BB40036D041 /* Images.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6EB49A0E1FAD7BB40036D041 /* Images.atlas */; };
+		7ED2CD731FCF161300A0A46C /* Quote1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7ED2CD721FCF161300A0A46C /* Quote1.mp3 */; };
+		7ED2CD751FCF161A00A0A46C /* Quote2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7ED2CD741FCF161A00A0A46C /* Quote2.mp3 */; };
+		7ED2CD771FCF162000A0A46C /* Quote3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7ED2CD761FCF162000A0A46C /* Quote3.mp3 */; };
+		7ED2CD791FCF162700A0A46C /* Quote4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7ED2CD781FCF162700A0A46C /* Quote4.mp3 */; };
+		7ED2CD7B1FCF163100A0A46C /* Quote5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7ED2CD7A1FCF163100A0A46C /* Quote5.mp3 */; };
+		7ED2CD7D1FCF163700A0A46C /* Quote6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7ED2CD7C1FCF163700A0A46C /* Quote6.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +63,12 @@
 		6E301F2F1FAD205700BF9EB7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E7351AB1FC345D700C5214D /* reflections.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = reflections.mp3; sourceTree = "<group>"; };
 		6EB49A0E1FAD7BB40036D041 /* Images.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Images.atlas; sourceTree = "<group>"; };
+		7ED2CD721FCF161300A0A46C /* Quote1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Quote1.mp3; sourceTree = "<group>"; };
+		7ED2CD741FCF161A00A0A46C /* Quote2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Quote2.mp3; sourceTree = "<group>"; };
+		7ED2CD761FCF162000A0A46C /* Quote3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Quote3.mp3; sourceTree = "<group>"; };
+		7ED2CD781FCF162700A0A46C /* Quote4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Quote4.mp3; sourceTree = "<group>"; };
+		7ED2CD7A1FCF163100A0A46C /* Quote5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Quote5.mp3; sourceTree = "<group>"; };
+		7ED2CD7C1FCF163700A0A46C /* Quote6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Quote6.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +130,12 @@
 				6E301F161FAD205700BF9EB7 /* LaunchScreen.storyboard */,
 				6E301F191FAD205700BF9EB7 /* Info.plist */,
 				6E7351AB1FC345D700C5214D /* reflections.mp3 */,
+				7ED2CD721FCF161300A0A46C /* Quote1.mp3 */,
+				7ED2CD741FCF161A00A0A46C /* Quote2.mp3 */,
+				7ED2CD761FCF162000A0A46C /* Quote3.mp3 */,
+				7ED2CD781FCF162700A0A46C /* Quote4.mp3 */,
+				7ED2CD7A1FCF163100A0A46C /* Quote5.mp3 */,
+				7ED2CD7C1FCF163700A0A46C /* Quote6.mp3 */,
 			);
 			path = "Trump Jump";
 			sourceTree = "<group>";
@@ -247,13 +265,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ED2CD751FCF161A00A0A46C /* Quote2.mp3 in Resources */,
+				7ED2CD771FCF162000A0A46C /* Quote3.mp3 in Resources */,
 				6E7351AC1FC345D700C5214D /* reflections.mp3 in Resources */,
+				7ED2CD7B1FCF163100A0A46C /* Quote5.mp3 in Resources */,
 				6E301F131FAD205700BF9EB7 /* Main.storyboard in Resources */,
 				6E301F0A1FAD205700BF9EB7 /* GameScene.sks in Resources */,
+				7ED2CD7D1FCF163700A0A46C /* Quote6.mp3 in Resources */,
 				6E301F151FAD205700BF9EB7 /* Assets.xcassets in Resources */,
+				7ED2CD791FCF162700A0A46C /* Quote4.mp3 in Resources */,
 				6EB49A0F1FAD7BB40036D041 /* Images.atlas in Resources */,
 				6E301F181FAD205700BF9EB7 /* LaunchScreen.storyboard in Resources */,
 				6E301F0C1FAD205700BF9EB7 /* Actions.sks in Resources */,
+				7ED2CD731FCF161300A0A46C /* Quote1.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
