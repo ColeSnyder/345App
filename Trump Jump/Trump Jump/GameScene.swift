@@ -99,7 +99,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trumpRun.zPosition = 1
         
         distanceTraveled.zPosition = 1
-        
     }
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
