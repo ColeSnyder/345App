@@ -97,8 +97,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartLabel.zPosition = 1
         self.addChild(trumpRun)
         trumpRun.zPosition = 1
-        
-        distanceTraveled.zPosition = 1
     }
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
             gameStart = true
@@ -150,6 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 firstTime = false
                 self.speedOfWalls()
                 self.addChild(distanceTraveled)
+                distanceTraveled.zPosition = 1
                 
                 let url = URL(fileURLWithPath: path)
                 
@@ -232,14 +231,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
-    func createTrump() -> SKSpriteNode {
-        let trump = SKSpriteNode(texture: SKTextureAtlas(named:"player").textureNamed("trump1"))
-        trump.size = CGSize(width: 50, height: 50)
-        trump.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
-        trump.physicsBody = SKPhysicsBody(circleOfRadius: trump.size.width)
-        trump.physicsBody?.affectedByGravity = false
-        return trump
-    }
+//    func createTrump() -> SKSpriteNode {
+//        let trump = SKSpriteNode(texture: SKTextureAtlas(named:"player").textureNamed("trump1"))
+//        trump.size = CGSize(width: 50, height: 50)
+//        trump.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
+//        trump.physicsBody = SKPhysicsBody(circleOfRadius: trump.size.width)
+//        trump.physicsBody?.affectedByGravity = false
+//        return trump
+//    }
     
     func spawnWall(){
         let randomDistance = random(min: 1.0, max: 1.6)
