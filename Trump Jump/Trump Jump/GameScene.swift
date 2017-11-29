@@ -167,7 +167,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     NSLog("couldn't play music")
                 }
             }
-        
             if trumpRun.position.x < -350 && dead == false {
                 self.createRestartButton()
                 restartLabel.text = "Restart Game"
@@ -194,13 +193,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }))
     }
-    
     func runningTrump() {
             trumpRun.run(SKAction.repeatForever(
             SKAction.animate(with: textureArray, timePerFrame: 0.1, resize: false, restore: true)),
             withKey:"TrumpRunningNow")
     }
-    
     func trumpToggleJump() {
             if trumpRun.position.y < (self.scene?.size.height)! * -0.30 {
                 let jumpUpAction = SKAction.moveBy(x: 0, y:500, duration:0.2)
@@ -209,7 +206,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 trumpRun.run(jump)
             }
     }
-    
     func createWall() -> SKNode {
         wall = SKNode()
         wall.name = "wall"
@@ -229,15 +225,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wall.run(moveAndRemove)
         return wall
     }
-    
-    func random() -> CGFloat{
+    func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
-    
     func random(min : CGFloat, max : CGFloat) -> CGFloat{
         return random() * (max - min) + min
     }
-    
     func createTrump() -> SKSpriteNode {
         let trump = SKSpriteNode(texture: SKTextureAtlas(named:"player").textureNamed("trump1"))
         trump.size = CGSize(width: 50, height: 50)
@@ -246,8 +239,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trump.physicsBody?.affectedByGravity = false
         return trump
     }
-    
-    func spawnWall(){
+    func spawnWall() {
         let randomDistance = random(min: 1.0, max: 1.6)
         if gameStart {
             Timer.scheduledTimer(withTimeInterval: TimeInterval(randomDistance), repeats: true, block: {(timer: Timer) -> Void in
@@ -257,11 +249,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.addChild(self.wall)
                 }
             })
-        } else{
+        } else {
             NSLog("...")
         }
     }
-    
     func createRestartButton()
     {
         NSLog("Off Screen")
@@ -274,7 +265,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
         dead = true
     }
-    
     func restartScene()
     {
         self.removeAllChildren()
@@ -283,7 +273,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         firstTime = true
         score = 0
     }
-
     func updateScoreWithValue (value: Int) {
         meters += value
         if (self.dead == false) {
@@ -307,5 +296,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameScene.scaleMode = SKSceneScaleMode.aspectFill
         self.scene!.view?.presentScene(gameScene, transition: transition)
     }
-    
 }
