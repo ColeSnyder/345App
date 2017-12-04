@@ -324,6 +324,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         firstTime = true
         score = 0
     }
+    func canHit()
+    {
+        let randomNum = random(min: 1, max: 6)
+        let quote = SKAction.playSoundFileNamed("Quote\(randomNum).mp3", waitForCompletion: false)
+        run(quote)
+    }
     func updateScoreWithValue (value: Int) {
         meters += value
         if (self.dead == false) {
