@@ -125,6 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             trumpToggleJump()
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
+            moveTrumpBack()
         
         for touch in touches {
             let location = touch.location(in: self)
@@ -194,6 +195,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: -(self.frame.size.height/2))
             self.addChild(ground)
             ground.zPosition = 1
+        }
+    }
+    func moveTrumpBack() {
+        if trumpRun.position.x > -201 {
+            trumpRun.position.x = -200
         }
     }
     func moveGround() {
