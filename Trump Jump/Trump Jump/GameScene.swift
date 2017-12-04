@@ -149,7 +149,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 subLabel.text = ""
             }
             if gameStart == true && firstTime {
-                
                 distanceTraveled.fontSize = 40
                 distanceTraveled.fontColor = UIColor.white
                 distanceTraveled.position = CGPoint(x: 0, y: (self.frame.size.height) / 3)
@@ -162,16 +161,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 run(SKAction.repeatForever(SKAction.sequence([wait, action])))
-                
                 self.spawnWall()
                 self.spawnCan()
                 gameMusic?.stop()
                 firstTime = false
                 self.speedOfBlocks()
                 self.addChild(distanceTraveled)
-                
                 let url = URL(fileURLWithPath: path)
-                
                 do {
                     gameMusic = try AVAudioPlayer(contentsOf: url)
                     gameMusic?.play()
