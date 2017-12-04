@@ -29,6 +29,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wall = SKNode()
     var moveAndRemove = SKAction()
     var wallSpeed: CGFloat = 3.0
+    var can = SKNode()
+    var moveCanAndRemove = SKAction()
+    var canSpeed: CGFloat = 3.0
     
     // Label Related
     var score = 0
@@ -93,6 +96,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / wallSpeed))
         let removeWalls = SKAction.removeFromParent()
         moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
+
+        
+        // Spray Tan Can Details
+        let canDistance = CGFloat(self.frame.width + can.frame.width)
+        let moveCans = SKAction.moveBy(x: -canDistance, y: 0, duration: TimeInterval(0.008 * canDistance / canSpeed))
+        let removeCans = SKAction.removeFromParent()
+        moveCanAndRemove = SKAction.sequence([moveCans, removeCans])
+        
         background.position = CGPoint(x: frame.size.width * 0.0, y: frame.size.height * 0.05)
         
         // Adding Children
@@ -152,9 +163,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 run(SKAction.repeatForever(SKAction.sequence([wait, action])))
                 
                 self.spawnWall()
+                self.spawnCan()
                 gameMusic?.stop()
                 firstTime = false
-                self.speedOfWalls()
+                self.speedOfBlocks()
                 self.addChild(distanceTraveled)
                 
                 let url = URL(fileURLWithPath: path)
@@ -225,6 +237,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wall.run(moveAndRemove)
         return wall
     }
+    func createCan() -> SKNode {
+        can = SKNode()
+        can.name = "can"
+        
+        let sprayTan = SKSpriteNode(imageNamed: "sprayTanCan")
+        
+        sprayTan.position = CGPoint(x: self.frame.width + 25, y: 0 - 200)
+        sprayTan.setScale(2)
+        sprayTan.physicsBody = SKPhysicsBody(rectangleOf: sprayTan.size)
+        sprayTan.physicsBody?.isDynamic = false
+        sprayTan.physicsBody?.affectedByGravity = false
+        
+        can.addChild(sprayTan)
+        can.zPosition = 1
+        let randomCanPosition = random(min: 0, max: 50)
+        can.position.y = can.position.y + randomCanPosition
+        can.run(moveCanAndRemove)
+        return can
+    }
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
@@ -247,6 +278,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (self.dead == false) {
                     self.wall = self.createWall()
                     self.addChild(self.wall)
+                }
+            })
+        } else {
+            NSLog("...")
+        }
+    }
+    func spawnCan() {
+        let randomCanDistance = random(min: 3.0, max: 5)
+        if gameStart {
+            Timer.scheduledTimer(withTimeInterval: TimeInterval(randomCanDistance), repeats: true, block: {(timer: Timer) -> Void in
+                NSLog("Can Spawned")
+                if (self.dead == false) {
+                    self.can = self.createCan()
+                    self.addChild(self.can)
                 }
             })
         } else {
@@ -279,13 +324,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         distanceTraveled.text = ("Meters: \(meters)")
         }
     }
-    func speedOfWalls() {
+    func speedOfBlocks() {
         Timer.scheduledTimer(withTimeInterval: 7, repeats: true, block: {(timer: Timer) -> Void in
+            // Increasing Wall Speed
             self.wallSpeed = self.wallSpeed + 0.8
             let distance = CGFloat(self.frame.width + self.wall.frame.width)
             let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
             let removeWalls = SKAction.removeFromParent()
             self.moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
+            
+            // Increasing Spray Tan Can Speed
+            self.canSpeed = self.canSpeed + 0.8
+            let canDistance = CGFloat(self.frame.width + self.can.frame.width)
+            let moveCans = SKAction.moveBy(x: -canDistance - 400, y: 0, duration: TimeInterval(0.008 * canDistance / self.canSpeed))
+            let removeCans = SKAction.removeFromParent()
+            self.moveCanAndRemove = SKAction.sequence([moveCans, removeCans])
+            
             NSLog("Sped Up")
             self.moveGround()
         })
