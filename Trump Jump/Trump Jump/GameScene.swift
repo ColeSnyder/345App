@@ -52,7 +52,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.backgroundColor = UIColor.white
-        
         textureAtlas = SKTextureAtlas(named: "Images")
         for i in 1...textureAtlas.textureNames.count {
             let Name = "trump\(i).png"
@@ -126,7 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             runningTrump()
             trump.physicsBody?.affectedByGravity = true
             moveTrumpBack()
-        
         for touch in touches {
             let location = touch.location(in: self)
             if restartBtn.contains(location) {
@@ -223,15 +221,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createWall() -> SKNode {
         wall = SKNode()
         wall.name = "wall"
-        
         let trumpWall = SKSpriteNode(imageNamed: "wall")
-        
         trumpWall.position = CGPoint(x: self.frame.width + 25, y: 0 - 475)
         trumpWall.setScale(0.35)
         trumpWall.physicsBody = SKPhysicsBody(rectangleOf: trumpWall.size)
         trumpWall.physicsBody?.isDynamic = false
         trumpWall.physicsBody?.affectedByGravity = false
-        
         wall.addChild(trumpWall)
         wall.zPosition = 1
         let randomPosition = random(min: 45, max: 50)
@@ -242,15 +237,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createCan() -> SKNode {
         can = SKNode()
         can.name = "can"
-        
         let sprayTan = SKSpriteNode(imageNamed: "sprayTanCan")
-        
         sprayTan.position = CGPoint(x: self.frame.width + 25, y: 0 - 200)
         sprayTan.setScale(2)
         sprayTan.physicsBody = SKPhysicsBody(rectangleOf: sprayTan.size)
         sprayTan.physicsBody?.isDynamic = false
         sprayTan.physicsBody?.affectedByGravity = false
-        
         can.addChild(sprayTan)
         can.zPosition = 1
         let randomCanPosition = random(min: 0, max: 50)
@@ -322,9 +314,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func canHit()
     {
-        let randomNum = random(min: 1, max: 6)
-        let quote = SKAction.playSoundFileNamed("Quote\(randomNum).mp3", waitForCompletion: false)
-        run(quote)
+        if trumpRun.position.x == can.position.x && trumpRun.position.y == can.position.y {
+            let randomNum = random(min: 1, max: 6)
+            let quote = SKAction.playSoundFileNamed("Quote\(randomNum).mp3", waitForCompletion: false)
+            run(quote)
+            removeFromParent()
+        }
     }
     func updateScoreWithValue (value: Int) {
         meters += value
@@ -340,14 +335,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let moveWalls = SKAction.moveBy(x: -distance - 400, y: 0, duration: TimeInterval(0.008 * distance / self.wallSpeed))
             let removeWalls = SKAction.removeFromParent()
             self.moveAndRemove = SKAction.sequence([moveWalls, removeWalls])
-            
             // Increasing Spray Tan Can Speed
             self.canSpeed = self.canSpeed + 0.8
             let canDistance = CGFloat(self.frame.width + self.can.frame.width)
             let moveCans = SKAction.moveBy(x: -canDistance - 400, y: 0, duration: TimeInterval(0.008 * canDistance / self.canSpeed))
             let removeCans = SKAction.removeFromParent()
             self.moveCanAndRemove = SKAction.sequence([moveCans, removeCans])
-            
             NSLog("Sped Up")
             self.moveGround()
         })
