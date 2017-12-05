@@ -337,18 +337,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         firstTime = true
         score = 0
     }
-<<<<<<< HEAD
-    func canHit()
-    {
-        if trumpRun.position.x == can.position.x && trumpRun.position.y == can.position.y {
-            let randomNum = random(min: 1, max: 6)
-            let quote = SKAction.playSoundFileNamed("Quote\(randomNum).mp3", waitForCompletion: false)
-            run(quote)
-            removeFromParent()
-        }
-    }
-=======
->>>>>>> be79b911359ef3aaf2e0cfd058249e6ec259aa07
     func updateScoreWithValue (value: Int) {
         meters += value
         if (self.dead == false) {
