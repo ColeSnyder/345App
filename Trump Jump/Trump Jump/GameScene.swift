@@ -314,7 +314,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     func didBegin(_ contact: SKPhysicsContact) {
         let collision: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        
         if collision == canCategory | trumpCategory {
             NSLog("Spray Tan Can Hit!")
             let randomNum = random(min: 1, max: 6)
