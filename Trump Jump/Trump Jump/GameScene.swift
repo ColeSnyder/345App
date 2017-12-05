@@ -10,6 +10,10 @@ import AVFoundation
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let trumpCategory: UInt32 = 0x1 << 0
+    let canCategory: UInt32   = 0x1 << 1
+    let wallCategory: UInt32  = 0x1 << 2
+    
     // Game Variables
     var gameStart: Bool = false
     var firstTime: Bool = true
@@ -47,6 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameMusic: AVAudioPlayer?
     
     override func didMove(to view: SKView) {
+        self.physicsWorld.contactDelegate = self
         firstTime = true
         dead = false
         physicsWorld.contactDelegate = self
@@ -119,6 +124,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(trumpRun)
         trumpRun.zPosition = 1
         distanceTraveled.zPosition = 1
+        trumpRun.physicsBody?.categoryBitMask = trumpCategory
+        trumpRun.physicsBody?.collisionBitMask = wallCategory
     }
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?) {
             gameStart = true
@@ -233,7 +240,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         trumpWall.physicsBody?.affectedByGravity = false
         
         wall.addChild(trumpWall)
-        wall.zPosition = 1
+        trumpWall.physicsBody?.categoryBitMask = wallCategory
+        trumpWall.physicsBody?.contactTestBitMask = trumpCategory
         let randomPosition = random(min: 45, max: 50)
         wall.position.y = wall.position.y + randomPosition
         wall.run(moveAndRemove)
@@ -252,6 +260,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         sprayTan.physicsBody?.affectedByGravity = false
         
         can.addChild(sprayTan)
+        sprayTan.physicsBody?.categoryBitMask = trumpCategory
+        sprayTan.physicsBody?.categoryBitMask = canCategory
+        sprayTan.physicsBody?.contactTestBitMask = trumpCategory
         can.zPosition = 1
         let randomCanPosition = random(min: 0, max: 50)
         can.position.y = can.position.y + randomCanPosition
@@ -294,10 +305,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (self.dead == false) {
                     self.can = self.createCan()
                     self.addChild(self.can)
+                   
                 }
             })
         } else {
             NSLog("...")
+        }
+    }
+    func didBegin(_ contact: SKPhysicsContact) {
+        let collision: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        if collision == canCategory | trumpCategory {
+            NSLog("Spray Tan Can Hit!")
+            let randomNum = random(min: 1, max: 6)
+            var quote = SKAction.playSoundFileNamed("Quote\(randomNum).mp3", waitForCompletion: false)
+            run(quote)
+            contact.bodyA.node?.removeFromParent()
+        }
+        if collision == wallCategory | trumpCategory {
+            NSLog("Wall Hit!")
         }
     }
     func createRestartButton()
@@ -319,12 +345,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         dead = false
         firstTime = true
         score = 0
-    }
-    func canHit()
-    {
-        let randomNum = random(min: 1, max: 6)
-        let quote = SKAction.playSoundFileNamed("Quote\(randomNum).mp3", waitForCompletion: false)
-        run(quote)
     }
     func updateScoreWithValue (value: Int) {
         meters += value
